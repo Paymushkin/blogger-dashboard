@@ -1,10 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  ssr: false, // Disable server-side rendering for static deployment
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
   app: {
     baseURL: '/blogger-dashboard/',
+    buildAssetsDir: '/_nuxt/',
     head: {
       title: 'Dashboard блогера',
       meta: [
@@ -21,7 +23,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/']
+      routes: ['/', '/404.html']
     }
   }
 })
