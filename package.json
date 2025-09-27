@@ -1,25 +1,22 @@
 {
   "name": "blogger-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard для блогера на Vue 3",
-  "type": "module",
-  "main": "index.html",
+  "description": "Dashboard для блогера на Nuxt 3",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist && git checkout gh-pages && cp -r dist/* . && git add . && git commit -m 'Update assets' && git push origin gh-pages && git checkout main"
+    "build": "nuxt generate",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "deploy": "npm run generate && gh-pages -d dist"
   },
   "dependencies": {
+    "nuxt": "^3.8.4",
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "autoprefixer": "^10.4.21",
-    "gh-pages": "^6.3.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.13",
-    "vite": "^4.4.5"
+    "@nuxtjs/tailwindcss": "^6.8.4",
+    "gh-pages": "^6.3.0"
   }
 }
