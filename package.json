@@ -9,7 +9,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "npm run generate && gh-pages -d dist"
+    "deploy": "npm run generate && gh-pages -d .output/public"
   },
   "dependencies": {
     "nuxt": "^3.8.4",
