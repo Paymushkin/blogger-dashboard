@@ -14,7 +14,7 @@
           :alt="example.alt" 
           class="w-full h-full object-cover" 
           loop
-          @click.stop
+          @click.stop="handleToggleVideo(index)"
         >
           Ваш браузер не поддерживает видео.
         </video>
@@ -48,14 +48,25 @@ const props = defineProps({
 const currentPlayingIndex = ref(null)
 
 const handleToggleVideo = (index) => {
+  console.log('Клик по видео:', index)
+  
   // Получаем все видео элементы на странице
   const videoElements = document.querySelectorAll('video')
+  console.log('Найдено видео элементов:', videoElements.length)
+  
   const video = videoElements[index]
   
-  if (!video) return
+  if (!video) {
+    console.error('Видео элемент не найден для индекса:', index)
+    return
+  }
+  
+  console.log('Видео элемент:', video)
+  console.log('Текущее состояние:', video.paused ? 'на паузе' : 'воспроизводится')
   
   // Если кликнули на уже играющее видео - ставим на паузу
   if (currentPlayingIndex.value === index && !video.paused) {
+    console.log('Останавливаем видео')
     video.pause()
     currentPlayingIndex.value = null
     return
@@ -64,14 +75,18 @@ const handleToggleVideo = (index) => {
   // Останавливаем все остальные видео
   videoElements.forEach((v, i) => {
     if (i !== index && !v.paused) {
+      console.log('Останавливаем видео', i)
       v.pause()
     }
   })
   
   // Запускаем выбранное видео
-  video.play().catch(error => {
+  console.log('Запускаем видео', index)
+  video.play().then(() => {
+    console.log('Видео успешно запущено')
+    currentPlayingIndex.value = index
+  }).catch(error => {
     console.error('Ошибка воспроизведения видео:', error)
   })
-  currentPlayingIndex.value = index
 }
 </script>
