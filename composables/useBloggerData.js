@@ -2,19 +2,19 @@ export const useBloggerData = () => {
   const bloggerData = ref({
     name: 'Екатерина Иванова',
     niche: 'Lifestyle',
-    avatar: '/images/avatar.png',
+    avatar: '/blogger-dashboard/images/avatar.png',
     buttonText: 'Предложить сделку'
   })
   
   const socialNetworks = ref([
-    { name: 'Telegram', iconPath: '/icons/telegram.svg', count: '11K' },
-    { name: 'YouTube', iconPath: '/icons/youtube.svg', count: '11K' },
-    { name: 'TikTok', iconPath: '/icons/tiktok.svg', count: '11K' },
-    { name: 'Instagram', iconPath: '/icons/instagram.svg', count: '11K' },
-    { name: 'VK', iconPath: '/icons/vk.svg', count: '11K' },
-    { name: 'Dzen', iconPath: '/icons/dzen.svg', count: '11K' },
-    { name: 'Rythm', iconPath: '/icons/rythm.svg', count: '11K' },
-    { name: 'Wibes', iconPath: '/icons/wibes.svg', count: '11K' }
+    { name: 'Telegram', iconPath: '/blogger-dashboard/icons/telegram.svg', count: '11K' },
+    { name: 'YouTube', iconPath: '/blogger-dashboard/icons/youtube.svg', count: '11K' },
+    { name: 'TikTok', iconPath: '/blogger-dashboard/icons/tiktok.svg', count: '11K' },
+    { name: 'Instagram', iconPath: '/blogger-dashboard/icons/instagram.svg', count: '11K' },
+    { name: 'VK', iconPath: '/blogger-dashboard/icons/vk.svg', count: '11K' },
+    { name: 'Dzen', iconPath: '/blogger-dashboard/icons/dzen.svg', count: '11K' },
+    { name: 'Rythm', iconPath: '/blogger-dashboard/icons/rythm.svg', count: '11K' },
+    { name: 'Wibes', iconPath: '/blogger-dashboard/icons/wibes.svg', count: '11K' }
   ])
   
   const stats = ref({
@@ -27,11 +27,11 @@ export const useBloggerData = () => {
     title: 'Примеры работ',
     viewAllText: 'смотреть все',
     examples: [
-      { video: '/video/reels-1.mp4', alt: 'Пример работы 1' },
-      { video: '/video/reels-2.mp4', alt: 'Пример работы 2' },
-      { video: '/video/reels-3.mp4', alt: 'Пример работы 3' },
-      { video: '/video/reels-4.mp4', alt: 'Пример работы 4' },
-      { video: '/video/reels-5.mp4', alt: 'Пример работы 5' }
+      { video: '/blogger-dashboard/video/reels-1.mp4', alt: 'Пример работы 1' },
+      { video: '/blogger-dashboard/video/reels-2.mp4', alt: 'Пример работы 2' },
+      { video: '/blogger-dashboard/video/reels-3.mp4', alt: 'Пример работы 3' },
+      { video: '/blogger-dashboard/video/reels-4.mp4', alt: 'Пример работы 4' },
+      { video: '/blogger-dashboard/video/reels-5.mp4', alt: 'Пример работы 5' }
     ]
   })
   
