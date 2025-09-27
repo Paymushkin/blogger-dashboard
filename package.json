@@ -4,10 +4,10 @@
   "description": "Dashboard для блогера на Nuxt 3",
   "private": true,
   "scripts": {
-    "build": "nuxt generate",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "build": "npx nuxt build",
+    "dev": "npx nuxt dev",
+    "generate": "npx nuxt generate",
+    "preview": "npx nuxt preview",
     "postinstall": "nuxt prepare",
     "deploy": "npm run generate && gh-pages -d .output/public"
   },

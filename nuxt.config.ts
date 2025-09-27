@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   app: {
     baseURL: '/blogger-dashboard/',
-    buildAssetsDir: '/blogger-dashboard/_nuxt/',
+    buildAssetsDir: '/_nuxt/',
     head: {
       title: 'Dashboard блогера',
       meta: [
