@@ -4,7 +4,7 @@ export function useBloggerData() {
   const bloggerData = ref({
     name: 'Екатерина Иванова',
     niche: 'Lifestyle',
-    avatar: '/src/images/avatar.png',
+    avatar: '/images/avatar.png',
     buttonText: 'Предложить сделку'
   })
   
@@ -29,11 +29,11 @@ export function useBloggerData() {
     title: 'Примеры работ',
     viewAllText: 'смотреть все',
     examples: [
-      { video: '/src/video/reels-1.mp4', alt: 'Пример работы 1' },
-      { video: '/src/video/reels-2.mp4', alt: 'Пример работы 2' },
-      { video: '/src/video/reels-3.mp4', alt: 'Пример работы 3' },
-      { video: '/src/video/reels-4.mp4', alt: 'Пример работы 4' },
-      { video: '/src/video/reels-5.mp4', alt: 'Пример работы 5' }
+      { video: '/video/reels-1.mp4', alt: 'Пример работы 1' },
+      { video: '/video/reels-2.mp4', alt: 'Пример работы 2' },
+      { video: '/video/reels-3.mp4', alt: 'Пример работы 3' },
+      { video: '/video/reels-4.mp4', alt: 'Пример работы 4' },
+      { video: '/video/reels-5.mp4', alt: 'Пример работы 5' }
     ]
   })
   
