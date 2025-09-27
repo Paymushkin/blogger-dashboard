@@ -1,6 +1,6 @@
 export const useBloggerData = () => {
   const bloggerData = ref({
-    name: 'Екатерина Иванова',
+    name: 'Снежана',
     niche: 'Lifestyle',
     avatar: '/blogger-dashboard/images/avatar.png',
     buttonText: 'Предложить сделку'
