@@ -26,42 +26,52 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import PlayIcon from './icons/PlayIcon.vue'
-import { useVideoPlayer } from '../composables/useVideoPlayer.js'
 
-export default {
-  name: 'WorkExamples',
-  components: {
-    PlayIcon
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Примеры работ'
   },
-  props: {
-    title: {
-      type: String,
-      default: 'Примеры работ'
-    },
-    examples: {
-      type: Array,
-      required: true
-    },
-    viewAllText: {
-      type: String,
-      default: 'смотреть все'
-    }
+  examples: {
+    type: Array,
+    required: true
   },
-  setup() {
-    const videoRefs = ref({})
-    const { toggleVideo } = useVideoPlayer()
-    
-    const handleToggleVideo = (index) => {
-      toggleVideo(index, videoRefs)
-    }
-    
-    return {
-      videoRefs,
-      handleToggleVideo
-    }
+  viewAllText: {
+    type: String,
+    default: 'смотреть все'
   }
+})
+
+const currentPlayingIndex = ref(null)
+
+const handleToggleVideo = (index) => {
+  // Получаем все видео элементы на странице
+  const videoElements = document.querySelectorAll('video')
+  const video = videoElements[index]
+  
+  if (!video) return
+  
+  // Если кликнули на уже играющее видео - ставим на паузу
+  if (currentPlayingIndex.value === index && !video.paused) {
+    video.pause()
+    currentPlayingIndex.value = null
+    return
+  }
+  
+  // Останавливаем все остальные видео
+  videoElements.forEach((v, i) => {
+    if (i !== index && !v.paused) {
+      v.pause()
+    }
+  })
+  
+  // Запускаем выбранное видео
+  video.play().catch(error => {
+    console.error('Ошибка воспроизведения видео:', error)
+  })
+  currentPlayingIndex.value = index
 }
 </script>
