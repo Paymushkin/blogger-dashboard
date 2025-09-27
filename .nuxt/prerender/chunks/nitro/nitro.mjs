@@ -640,7 +640,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/blogger-dashboard/",
-    "buildId": "5a1dd56b-d229-405d-8869-77821646116f",
+    "buildId": "bde425ba-a8c9-4160-8fae-a74e8dd7dc9e",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
