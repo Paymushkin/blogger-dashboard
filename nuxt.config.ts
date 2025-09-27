@@ -24,6 +24,9 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ['/', '/404.html']
+    },
+    output: {
+      publicDir: '.output/public'
     }
   },
   // Force cache busting
