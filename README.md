@@ -48,6 +48,9 @@ npm run build
 
 # Предварительный просмотр сборки
 npm run preview
+
+# Деплой на GitHub Pages
+npm run deploy
 ```
 
 ## 📁 Структура проекта
@@ -100,8 +103,8 @@ src/
 ### Tailwind CSS
 Использует PostCSS с автопрефиксером для кроссбраузерности.
 
-### GitHub Actions
-Автоматический деплой при пуше в main ветку.
+### GitHub Pages
+Деплой через ветку `gh-pages` с помощью пакета `gh-pages`.
 
 ## 📄 Лицензия
 
