@@ -25,5 +25,9 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/', '/404.html']
     }
+  },
+  // Force cache busting
+  build: {
+    analyze: false
   }
 })
