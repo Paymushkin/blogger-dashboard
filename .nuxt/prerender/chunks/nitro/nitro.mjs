@@ -640,8 +640,8 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/blogger-dashboard/",
-    "buildId": "06154a82-515e-4002-a0f5-0832e95c831a",
-    "buildAssetsDir": "/blogger-dashboard/_nuxt/",
+    "buildId": "806648ae-7531-45b2-9995-41e12dbabf92",
+    "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
   "nitro": {
@@ -650,17 +650,17 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
-      "/blogger-dashboard/_nuxt/builds/meta/**": {
+      "/_nuxt/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
         }
       },
-      "/blogger-dashboard/_nuxt/builds/**": {
+      "/_nuxt/builds/**": {
         "headers": {
           "cache-control": "public, max-age=1, immutable"
         }
       },
-      "/blogger-dashboard/_nuxt/**": {
+      "/_nuxt/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
         }
@@ -973,7 +973,7 @@ function readAsset (id) {
   return promises.readFile(resolve(serverDir, assets[id].path))
 }
 
-const publicAssetBases = {"/blogger-dashboard/_nuxt/builds/meta/":{"maxAge":31536000},"/blogger-dashboard/_nuxt/builds/":{"maxAge":1},"/blogger-dashboard/_nuxt/":{"maxAge":31536000}};
+const publicAssetBases = {"/_nuxt/builds/meta/":{"maxAge":31536000},"/_nuxt/builds/":{"maxAge":1},"/_nuxt/":{"maxAge":31536000}};
 
 function isPublicAssetURL(id = '') {
   if (assets[id]) {
