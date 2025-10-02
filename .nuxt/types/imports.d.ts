@@ -35,6 +35,10 @@ declare global {
   const formatFollowers: typeof import('../../composables/helpers')['formatFollowers']
   const generateId: typeof import('../../composables/helpers')['generateId']
   const getAppManifest: typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']
+  const getBloggerReels: typeof import('../../utils/api')['getBloggerReels']
+  const getBloggerReelsWithRetry: typeof import('../../utils/api')['getBloggerReelsWithRetry']
+  const getBloggerReviews: typeof import('../../utils/api')['getBloggerReviews']
+  const getBloggerStats: typeof import('../../utils/api')['getBloggerStats']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getRouteRules: typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']
@@ -230,6 +234,10 @@ declare module 'vue' {
     readonly formatFollowers: UnwrapRef<typeof import('../../composables/helpers')['formatFollowers']>
     readonly generateId: UnwrapRef<typeof import('../../composables/helpers')['generateId']>
     readonly getAppManifest: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getAppManifest']>
+    readonly getBloggerReels: UnwrapRef<typeof import('../../utils/api')['getBloggerReels']>
+    readonly getBloggerReelsWithRetry: UnwrapRef<typeof import('../../utils/api')['getBloggerReelsWithRetry']>
+    readonly getBloggerReviews: UnwrapRef<typeof import('../../utils/api')['getBloggerReviews']>
+    readonly getBloggerStats: UnwrapRef<typeof import('../../utils/api')['getBloggerStats']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getRouteRules: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']>

@@ -1,26 +1,43 @@
+import { ref, computed, onMounted, watch } from 'vue'
+import { getBloggerStats, getBloggerReviews, getBloggerReelsWithRetry } from '~/utils/api'
+
 export const useBloggerData = () => {
   const bloggerData = ref({
     name: 'Екатерина Иванова',
     niche: 'Lifestyle',
-    avatar: '/blogger-dashboard/images/avatar.png',
+    avatar: '/blogger-dashboard/images/default-avatar.png',
     buttonText: 'Предложить сделку'
   })
   
+  const withBase = (p) => `/blogger-dashboard${p.startsWith('/') ? '' : '/'}${p.replace(/^\/?blogger-dashboard\//, '').replace(/^\//, '')}`
+
+  const socialIconByName = {
+    Telegram: withBase('/icons/telegram.svg'),
+    YouTube: withBase('/icons/youtube.svg'),
+    TikTok: withBase('/icons/tiktok.svg'),
+    Instagram: withBase('/icons/instagram.svg'),
+    VK: withBase('/icons/vk.svg'),
+    Dzen: withBase('/icons/dzen.svg'),
+    Rythm: withBase('/icons/rythm.svg'),
+    Wibes: withBase('/icons/wibes.svg')
+  }
+
   const socialNetworks = ref([
-    { name: 'Telegram', iconPath: '/blogger-dashboard/icons/telegram.svg', count: '11K' },
-    { name: 'YouTube', iconPath: '/blogger-dashboard/icons/youtube.svg', count: '11K' },
-    { name: 'TikTok', iconPath: '/blogger-dashboard/icons/tiktok.svg', count: '11K' },
-    { name: 'Instagram', iconPath: '/blogger-dashboard/icons/instagram.svg', count: '11K' },
-    { name: 'VK', iconPath: '/blogger-dashboard/icons/vk.svg', count: '11K' },
-    { name: 'Dzen', iconPath: '/blogger-dashboard/icons/dzen.svg', count: '11K' },
-    { name: 'Rythm', iconPath: '/blogger-dashboard/icons/rythm.svg', count: '11K' },
-    { name: 'Wibes', iconPath: '/blogger-dashboard/icons/wibes.svg', count: '11K' }
+    { name: 'Telegram', iconPath: socialIconByName.Telegram, count: '11K', active: true },
+    { name: 'YouTube', iconPath: socialIconByName.YouTube, count: '11K', active: true },
+    { name: 'TikTok', iconPath: socialIconByName.TikTok, count: '11K', active: true },
+    { name: 'Instagram', iconPath: socialIconByName.Instagram, count: '11K', active: true },
+    { name: 'VK', iconPath: socialIconByName.VK, count: '11K', active: true },
+    { name: 'Dzen', iconPath: socialIconByName.Dzen, count: '11K', active: true },
+    { name: 'Rythm', iconPath: socialIconByName.Rythm, count: '11K', active: true },
+    { name: 'Wibes', iconPath: socialIconByName.Wibes, count: '11K', active: true }
   ])
   
   const stats = ref({
-    rating: '4,96',
+    rating: '5',
     status: 'ТОП',
-    completedDeals: '285'
+    completedDeals: '82',
+    serviceTime: '9 мес. 27 д.'
   })
   
   const workExamples = ref({
@@ -43,130 +60,9 @@ export const useBloggerData = () => {
   }
 
   const reviews = ref({
-    title: 'Отзывы (285)',
+    title: 'Отзывы (0)',
     viewAllText: 'смотреть все',
-      reviews: [
-        {
-          name: maskName('samosveta_ru'),
-          date: '1.8.2025',
-          text: 'Все супер',
-          rating: 5
-        },
-        {
-          name: maskName('samosveta_ru'),
-          date: '20.5.2025',
-          text: 'Супер',
-          rating: 5
-        },
-        {
-          name: maskName('momysovenka'),
-          date: '1.4.2025',
-          text: 'Быстро одобрил. Если возникали вопросы то в чате их решили. Всё супер! Интеграция выложена',
-          rating: 5
-        },
-        {
-          name: maskName('RiErmO'),
-          date: '5.3.2025',
-          text: 'Все супер! Товар понравился!',
-          rating: 5
-        },
-        {
-          name: maskName('Jyatsuk'),
-          date: '1.3.2025',
-          text: 'Спасибо селлеру за классный продукт и возможность поэкспериментировать',
-          rating: 5
-        },
-        {
-          name: maskName('yaamina11'),
-          date: '25.2.2025',
-          text: 'Все понравилось',
-          rating: 4
-        },
-        {
-          name: maskName('nastenaandreeva'),
-          date: '19.2.2025',
-          text: 'Было приятно поработать 🩵',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '17.2.2025',
-          text: 'Все прекрасно!',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '14.2.2025',
-          text: 'Обожаю работать с этим селлером!',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '13.2.2025',
-          text: 'Все отлично!',
-          rating: 5
-        },
-        {
-          name: maskName('marisha423'),
-          date: '13.2.2025',
-          text: 'сделка прошла быстро, без заморочек, приятно было поработать с этим брендом',
-          rating: 4
-        },
-        {
-          name: maskName('SofaKarbova'),
-          date: '12.2.2025',
-          text: 'Отличный диффузор, закажу еще',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '10.2.2025',
-          text: 'Отлично!',
-          rating: 5
-        },
-        {
-          name: maskName('lyubov_matveeva'),
-          date: '10.2.2025',
-          text: 'Все прошло хорошо, я с удовольствием сделала обзор на товар, мне искренне понравился диффузор.',
-          rating: 5
-        },
-        {
-          name: maskName('Guzelka02'),
-          date: '8.2.2025',
-          text: 'Диффузор очень понравился, доставка была быстрой👍🏻',
-          rating: 4
-        },
-        {
-          name: maskName('anastebond'),
-          date: '6.2.2025',
-          text: 'Спасибо большое за сотрудничество',
-          rating: 5
-        },
-        {
-          name: maskName('lixay_a'),
-          date: '6.2.2025',
-          text: 'Все по этапно объяснили, дружелюбно разговаривали, быстро оформили все. Очень понравилась работа с селлером. Спасибо за всё🤍',
-          rating: 5
-        },
-        {
-          name: maskName('lubovbchk'),
-          date: '5.2.2025',
-          text: 'Благодарю за сотрудничество 🤍',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '4.2.2025',
-          text: 'Как всегда — отлично!',
-          rating: 5
-        },
-        {
-          name: maskName('solowey'),
-          date: '3.2.2025',
-          text: 'Потрясающий селлер! Быстро отвечает',
-          rating: 5
-        }
-      ]
+    reviews: []
   })
   
   const totalFollowers = computed(() => {
@@ -176,12 +72,168 @@ export const useBloggerData = () => {
     }, 0)
   })
   
+  // Состояния загрузки
+  const isLoading = ref(false)
+  const isReelsLoading = ref(false)
+  const reelsLoadingProgress = ref({ current: 0, total: 4 })
+
+  // Функция форматирования даты
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    })
+  }
+
+  // Функция загрузки данных блогера
+  const loadBloggerData = async (bloggerId = null) => {
+    if (!bloggerId) return
+
+    isLoading.value = true
+    
+    try {
+      // Загружаем данные параллельно
+      const [statsData, reviewsData, reelsResult] = await Promise.all([
+        getBloggerStats(bloggerId),
+        getBloggerReviews(bloggerId),
+        getBloggerReelsWithRetry(bloggerId, 4, [10000, 10000, 10000, 20000], 9, (progress) => {
+          reelsLoadingProgress.value = progress
+        })
+      ])
+
+      // Обновляем профиль и статистику с учетом фактической структуры API
+      if (statsData) {
+        // Профиль
+        if (statsData.profile) {
+          bloggerData.value.name = statsData.profile.firstname || bloggerData.value.name
+          // Если есть аватар — используем, иначе остается дефолтный
+          if (statsData.profile.avatar) {
+            bloggerData.value.avatar = statsData.profile.avatar
+          }
+        }
+
+        // Статистика
+        const avgRating = statsData.stats?.rating?.average
+        const dealsClosed = statsData.stats?.deals?.closed
+        const humanService = statsData.stats?.timeOnPlatform?.humanReadable
+
+        stats.value = {
+          rating: (avgRating != null ? avgRating : 5).toString(),
+          status: stats.value.status || 'ТОП',
+          completedDeals: (dealsClosed != null ? dealsClosed : 82).toString(),
+          serviceTime: humanService || stats.value.serviceTime || '9 мес. 27 д.'
+        }
+      }
+
+      // Обновляем социальные сети с нормализацией путей к иконкам
+      if (statsData?.socialNetworks) {
+        console.log('Данные соцсетей из API:', statsData.socialNetworks)
+        const aliasToName = { inst: 'Instagram', tg: 'Telegram' }
+        // В новых данных имя сети находится в social.network.name
+        let nameCounts = {}
+        const processedNetworks = statsData.socialNetworks
+          .filter(social => social && (social.name || social.network?.name))
+          .map((social) => {
+            const originalName = (social.name || social.network?.name || '').toString()
+            const normalizedName = aliasToName[originalName?.toLowerCase?.()] || originalName
+            const lower = ((social.iconPath || '')).toLowerCase()
+            // Если пришел абсолютный URL — используем как есть
+            const isAbsolute = /^https?:\/\//.test(social.iconPath || '')
+            let iconPath = socialIconByName[normalizedName] || socialIconByName.Instagram
+            if (isAbsolute) {
+              iconPath = social.iconPath
+            } else if (lower.endsWith('inst.svg') || lower.includes('instagram')) {
+              iconPath = socialIconByName.Instagram
+            } else if (lower.endsWith('tg.svg') || lower.includes('telegram')) {
+              iconPath = socialIconByName.Telegram
+            } else if (lower.includes('youtube')) {
+              iconPath = socialIconByName.YouTube
+            } else if (lower.includes('tiktok')) {
+              iconPath = socialIconByName.TikTok
+            } else if (lower.includes('vk')) {
+              iconPath = socialIconByName.VK
+            } else if (lower.includes('dzen')) {
+              iconPath = socialIconByName.Dzen
+            } else if (lower.includes('rythm')) {
+              iconPath = socialIconByName.Rythm
+            } else if (lower.includes('wibes')) {
+              iconPath = socialIconByName.Wibes
+            }
+            // Нумерация дублей: Instagram, Instagram 2, ...
+            nameCounts[normalizedName] = (nameCounts[normalizedName] || 0) + 1
+            const displayName = nameCounts[normalizedName] > 1 ? `${normalizedName} ${nameCounts[normalizedName]}` : normalizedName
+
+            return {
+              name: displayName,
+              baseName: normalizedName,
+              iconPath,
+              count: (social.followersCount != null
+                ? social.followersCount.toLocaleString('ru-RU')
+                : (social.count || '0')), // fallback
+              active: social.active !== false
+            }
+          })
+          // Не удаляем дубликаты — показываем все с нумерацией
+        
+        console.log('Обработанные соцсети:', processedNetworks)
+        socialNetworks.value = processedNetworks
+      } else {
+        console.log('Нет данных соцсетей в statsData:', statsData)
+      }
+
+      // Обновляем отзывы
+      if (reviewsData?.items) {
+        reviews.value.reviews = reviewsData.items.map(review => ({
+          name: review.author?.firstname || review.author?.maskedName || 'Пользователь',
+          date: formatDate(review.createdAt),
+          rating: review.rating || 5,
+          text: review.description || 'Без описания',
+          avatar: review.author?.avatar || null
+        }))
+        
+        // Обновляем заголовок с актуальным количеством отзывов
+        reviews.value.title = `Отзывы (${reviewsData.items.length})`
+      }
+
+      // Обновляем примеры работ
+      if (reelsResult?.reels) {
+        workExamples.value.examples = reelsResult.reels.map((reel, index) => ({
+          video: reel.cdn_url || reel.video,
+          alt: `Рилс ${index + 1}`,
+          thumbnail: reel.thumbnail_url || reel.thumbnail,
+          duration: reel.duration,
+          platform: reel.platform || 'instagram'
+        }))
+      }
+
+    } catch (error) {
+      console.error('Ошибка загрузки данных:', error)
+    } finally {
+      isLoading.value = false
+      isReelsLoading.value = false
+    }
+  }
+
+  // Функция для начала загрузки рилсов
+  const startReelsLoading = () => {
+    isReelsLoading.value = true
+    reelsLoadingProgress.value = { current: 0, total: 4 }
+  }
+
   return {
     bloggerData,
     socialNetworks,
     stats,
     workExamples,
     reviews,
-    totalFollowers
+    totalFollowers,
+    isLoading,
+    isReelsLoading,
+    reelsLoadingProgress,
+    loadBloggerData,
+    startReelsLoading
   }
 }
+//после перестроение 

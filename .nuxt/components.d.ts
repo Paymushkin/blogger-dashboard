@@ -14,14 +14,17 @@ type HydrationStrategies = {
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 
 
+export const AiInsights: typeof import("../components/AiInsights.vue")['default']
 export const BloggerInfo: typeof import("../components/BloggerInfo.vue")['default']
 export const ErrorBoundary: typeof import("../components/ErrorBoundary.vue")['default']
 export const LoadingSpinner: typeof import("../components/LoadingSpinner.vue")['default']
 export const Reviews: typeof import("../components/Reviews.vue")['default']
+export const SocialAnalytics: typeof import("../components/SocialAnalytics.vue")['default']
 export const SocialIcon: typeof import("../components/SocialIcon.vue")['default']
 export const SocialNetworks: typeof import("../components/SocialNetworks.vue")['default']
 export const StatsBlocks: typeof import("../components/StatsBlocks.vue")['default']
 export const WorkExamples: typeof import("../components/WorkExamples.vue")['default']
+export const IconsCalendarIcon: typeof import("../components/icons/CalendarIcon.vue")['default']
 export const IconsCheckIcon: typeof import("../components/icons/CheckIcon.vue")['default']
 export const IconsDealsIcon: typeof import("../components/icons/DealsIcon.vue")['default']
 export const IconsPlayIcon: typeof import("../components/icons/PlayIcon.vue")['default']
@@ -51,14 +54,17 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+export const LazyAiInsights: LazyComponent<typeof import("../components/AiInsights.vue")['default']>
 export const LazyBloggerInfo: LazyComponent<typeof import("../components/BloggerInfo.vue")['default']>
 export const LazyErrorBoundary: LazyComponent<typeof import("../components/ErrorBoundary.vue")['default']>
 export const LazyLoadingSpinner: LazyComponent<typeof import("../components/LoadingSpinner.vue")['default']>
 export const LazyReviews: LazyComponent<typeof import("../components/Reviews.vue")['default']>
+export const LazySocialAnalytics: LazyComponent<typeof import("../components/SocialAnalytics.vue")['default']>
 export const LazySocialIcon: LazyComponent<typeof import("../components/SocialIcon.vue")['default']>
 export const LazySocialNetworks: LazyComponent<typeof import("../components/SocialNetworks.vue")['default']>
 export const LazyStatsBlocks: LazyComponent<typeof import("../components/StatsBlocks.vue")['default']>
 export const LazyWorkExamples: LazyComponent<typeof import("../components/WorkExamples.vue")['default']>
+export const LazyIconsCalendarIcon: LazyComponent<typeof import("../components/icons/CalendarIcon.vue")['default']>
 export const LazyIconsCheckIcon: LazyComponent<typeof import("../components/icons/CheckIcon.vue")['default']>
 export const LazyIconsDealsIcon: LazyComponent<typeof import("../components/icons/DealsIcon.vue")['default']>
 export const LazyIconsPlayIcon: LazyComponent<typeof import("../components/icons/PlayIcon.vue")['default']>

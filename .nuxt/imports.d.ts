@@ -35,4 +35,5 @@ export { formatFollowers, formatDate, generateId, isValidUrl, debounce } from '.
 export { TYPES } from '../composables/index';
 export { useBloggerData } from '../composables/useBloggerData';
 export { useVideoPlayer } from '../composables/useVideoPlayer';
+export { getBloggerStats, getBloggerReviews, getBloggerReels, getBloggerReelsWithRetry } from '../utils/api';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
