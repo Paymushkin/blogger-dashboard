@@ -1,11 +1,20 @@
 // API функции для получения данных блогера
 
-const API_BASE_URL = '/api'
+// Используем allorigins.win для GitHub Pages
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://dev.unpacks.ru/api') 
+  : '/api'
 
 // Функция для получения статистики блогера
 export async function getBloggerStats(bloggerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/stats`)
+    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/stats`, {
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
@@ -19,7 +28,13 @@ export async function getBloggerStats(bloggerId) {
 // Функция для получения отзывов блогера
 export async function getBloggerReviews(bloggerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/reviews`)
+    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/reviews`, {
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
@@ -33,7 +48,13 @@ export async function getBloggerReviews(bloggerId) {
 // Функция для получения рилсов блогера
 export async function getBloggerReels(bloggerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/reels`)
+    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/reels`, {
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }

@@ -640,7 +640,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/blogger-dashboard/",
-    "buildId": "bde425ba-a8c9-4160-8fae-a74e8dd7dc9e",
+    "buildId": "1a3fffda-c571-4c56-91b6-e7c4cc066579",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -649,6 +649,12 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
+      },
+      "/api/**": {
+        "proxy": {
+          "to": "https://dev.unpacks.ru/api/**",
+          "_proxyStripBase": "/api"
+        }
       },
       "/_nuxt/builds/meta/**": {
         "headers": {
@@ -1057,7 +1063,7 @@ const _X92Zin = eventHandler((event) => {
 
 const _SxA8c9 = defineEventHandler(() => {});
 
-const _lazy_MOKK8K = () => import('../_/renderer.mjs').then(function (n) { return n.r; });
+const _lazy_MOKK8K = () => import('../_/renderer.mjs');
 
 const handlers = [
   { route: '', handler: _X92Zin, lazy: false, middleware: true, method: undefined },

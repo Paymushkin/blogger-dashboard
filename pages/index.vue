@@ -94,14 +94,12 @@ const setActiveNetwork = (network) => {
   activeNetwork.value = network
 }
 
-// Получаем ID блогера из URL или используем дефолтный
+// Получаем ID блогера из URL
 const route = useRoute()
-const bloggerId = route.query.id || '1' // Дефолтный ID
+const bloggerId = route.query.id
 
 onMounted(() => {
-  if (bloggerId) {
-    startReelsLoading()
-    loadBloggerData(bloggerId)
-  }
+  startReelsLoading()
+  loadBloggerData(bloggerId)
 })
 </script>
