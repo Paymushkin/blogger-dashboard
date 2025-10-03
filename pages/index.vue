@@ -60,6 +60,7 @@ const {
   stats,
   workExamples,
   reviews,
+  aiData,
   totalFollowers,
   isLoading,
   isReelsLoading,
@@ -67,24 +68,6 @@ const {
   loadBloggerData,
   startReelsLoading
 } = useBloggerData()
-
-// AI данные
-const aiData = ref({
-  finalScore: '9.6/10',
-  topics: ['мода', 'лайфстайл'],
-  description: 'Эстетичный визуал, аутфиты, уход, сторис с рекомендациями. Часто использует рилсы и карусели.',
-  followers: '12 500',
-  er: '6,8%',
-  avgLikes: '220',
-  avgComments: '14',
-  reach: '28K',
-  productScore: '10',
-  productComment: 'Идеальный fit с модой',
-  audienceScore: '10',
-  audienceComment: 'Ядро — молодые мамы, следят за стилем',
-  matchScore: '9.6',
-  matchComment: 'Максимальное соответствие'
-})
 
 // Активная социальная сеть
 const activeNetwork = ref('Instagram')

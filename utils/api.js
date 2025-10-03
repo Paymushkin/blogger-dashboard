@@ -1,8 +1,8 @@
 // API функции для получения данных блогера
 
-// Используем allorigins.win для GitHub Pages
+// Используем CORS прокси пока сервер не исправлен
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://dev.unpacks.ru/api') 
+  ? 'https://corsproxy.io/?' + encodeURIComponent('https://dev.unpacks.ru/api')
   : '/api'
 
 // Функция для получения статистики блогера
@@ -48,17 +48,26 @@ export async function getBloggerReviews(bloggerId) {
 // Функция для получения рилсов блогера
 export async function getBloggerReels(bloggerId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/blogger/${bloggerId}/reels`, {
+    const url = `${API_BASE_URL}/blogger/${bloggerId}/reels`
+    console.log('Загружаем рилсы с URL:', url)
+    
+    const response = await fetch(url, {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })
+    
+    console.log('Ответ сервера для рилсов:', response.status, response.statusText)
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    return await response.json()
+    
+    const data = await response.json()
+    console.log('Данные рилсов получены:', data)
+    return data
   } catch (error) {
     console.error('Ошибка загрузки рилсов:', error)
     return null

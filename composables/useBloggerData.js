@@ -1,10 +1,10 @@
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { getBloggerStats, getBloggerReviews, getBloggerReelsWithRetry } from '~/utils/api'
 
 export const useBloggerData = () => {
   const bloggerData = ref({
-    name: 'Екатерина Иванова',
-    niche: 'Lifestyle',
+    name: '',
+    niche: '',
     avatar: '/blogger-dashboard/images/default-avatar.png',
     buttonText: 'Предложить сделку'
   })
@@ -22,34 +22,19 @@ export const useBloggerData = () => {
     Wibes: withBase('/icons/wibes.svg')
   }
 
-  const socialNetworks = ref([
-    { name: 'Telegram', iconPath: socialIconByName.Telegram, count: '11K', active: true },
-    { name: 'YouTube', iconPath: socialIconByName.YouTube, count: '11K', active: true },
-    { name: 'TikTok', iconPath: socialIconByName.TikTok, count: '11K', active: true },
-    { name: 'Instagram', iconPath: socialIconByName.Instagram, count: '11K', active: true },
-    { name: 'VK', iconPath: socialIconByName.VK, count: '11K', active: true },
-    { name: 'Dzen', iconPath: socialIconByName.Dzen, count: '11K', active: true },
-    { name: 'Rythm', iconPath: socialIconByName.Rythm, count: '11K', active: true },
-    { name: 'Wibes', iconPath: socialIconByName.Wibes, count: '11K', active: true }
-  ])
+  const socialNetworks = ref([])
   
   const stats = ref({
-    rating: '5',
-    status: 'ТОП',
-    completedDeals: '82',
-    serviceTime: '9 мес. 27 д.'
+    rating: '',
+    status: '',
+    completedDeals: '',
+    serviceTime: ''
   })
   
   const workExamples = ref({
     title: 'Примеры работ',
     viewAllText: 'смотреть все',
-    examples: [
-      { video: '/blogger-dashboard/video/reels-1.mp4', alt: 'Пример работы 1' },
-      { video: '/blogger-dashboard/video/reels-2.mp4', alt: 'Пример работы 2' },
-      { video: '/blogger-dashboard/video/reels-3.mp4', alt: 'Пример работы 3' },
-      { video: '/blogger-dashboard/video/reels-4.mp4', alt: 'Пример работы 4' },
-      { video: '/blogger-dashboard/video/reels-5.mp4', alt: 'Пример работы 5' }
-    ]
+    examples: []
   })
   
   // Функция для маскирования имени
@@ -63,6 +48,24 @@ export const useBloggerData = () => {
     title: 'Отзывы (0)',
     viewAllText: 'смотреть все',
     reviews: []
+  })
+
+  // AI данные
+  const aiData = ref({
+    finalScore: '',
+    topics: [],
+    description: '',
+    followers: '',
+    er: '',
+    avgLikes: '',
+    avgComments: '',
+    reach: '',
+    productScore: '',
+    productComment: '',
+    audienceScore: '',
+    audienceComment: '',
+    matchScore: '',
+    matchComment: ''
   })
   
   const totalFollowers = computed(() => {
@@ -95,7 +98,19 @@ export const useBloggerData = () => {
       return
     }
 
+    // Проверяем, находимся ли мы на GitHub Pages
+    const isGitHubPages = process.env.NODE_ENV === 'production' && window.location.hostname.includes('github.io')
+    
+    // Если на GitHub Pages И нет ID блогера, загружаем тестовые данные
+    if (isGitHubPages && !bloggerId) {
+      console.log('На GitHub Pages без ID, загружаем тестовые данные')
+      loadTestData()
+      return
+    }
+
+    // Показываем загрузку для API запросов
     isLoading.value = true
+    isReelsLoading.value = true
     
     try {
       // Загружаем данные параллельно
@@ -109,13 +124,16 @@ export const useBloggerData = () => {
 
       // Обновляем профиль и статистику с учетом фактической структуры API
       if (statsData) {
+        console.log('Обновляем профиль:', statsData.profile)
         // Профиль
         if (statsData.profile) {
           bloggerData.value.name = statsData.profile.firstname || bloggerData.value.name
+          bloggerData.value.niche = statsData.profile.niche || bloggerData.value.niche
           // Если есть аватар — используем, иначе остается дефолтный
           if (statsData.profile.avatar) {
             bloggerData.value.avatar = statsData.profile.avatar
           }
+          console.log('Профиль обновлен:', bloggerData.value)
         }
 
         // Статистика
@@ -202,7 +220,9 @@ export const useBloggerData = () => {
       }
 
       // Обновляем примеры работ
-      if (reelsResult?.reels) {
+      console.log('Результат загрузки рилсов:', reelsResult)
+      if (reelsResult?.reels && reelsResult.reels.length > 0) {
+        console.log(`Найдено ${reelsResult.reels.length} рилсов`)
         workExamples.value.examples = reelsResult.reels.map((reel, index) => ({
           video: reel.cdn_url || reel.video,
           alt: `Рилс ${index + 1}`,
@@ -215,16 +235,78 @@ export const useBloggerData = () => {
           caption: reel.caption || '',
           playCount: reel.video_play_count || 0
         }))
+        console.log('Рилсы обработаны:', workExamples.value.examples)
+      } else {
+        // Если рилсов нет, показываем fallback рилсы для демонстрации
+        workExamples.value.examples = []
+        console.log('Рилсы не найдены или пустой массив. Результат:', reelsResult)
+        
+        // Добавляем fallback рилсы для демонстрации функционала
+        console.log('Добавляем fallback рилсы для демонстрации')
+        workExamples.value.examples = [
+          {
+            video: '/blogger-dashboard/video/reels-1.mp4',
+            alt: 'Красивый макияж',
+            thumbnail: '/blogger-dashboard/images/poster.png',
+            duration: '0:15',
+            platform: 'instagram',
+            likesCount: 154,
+            commentsCount: 8,
+            viewsCount: 4630,
+            caption: 'Артикул на ВБ: 253020586 \n\nНа вб акция на трусики минус 15% -  по 999 руб в течение августа 🔥\nНаши любимые- тонкие, дышащие, комфортные - идеально для активных деток. \nСпокойно выдерживают всю ночь 🌙 \n\n@hanibani_baby \n@hanibani.mama',
+            playCount: 22930
+          },
+          {
+            video: '/blogger-dashboard/video/reels-2.mp4',
+            alt: 'Утренняя рутина',
+            thumbnail: '/blogger-dashboard/images/poster.png',
+            duration: '0:20',
+            platform: 'tiktok',
+            likesCount: 89,
+            commentsCount: 12,
+            viewsCount: 2150,
+            caption: 'Утренняя рутина красоты ✨ Как я начинаю свой день',
+            playCount: 8500
+          },
+          {
+            video: '/blogger-dashboard/video/reels-3.mp4',
+            alt: 'Обзор косметики',
+            thumbnail: '/blogger-dashboard/images/poster.png',
+            duration: '0:18',
+            platform: 'instagram',
+            likesCount: 203,
+            commentsCount: 15,
+            viewsCount: 3200,
+            caption: 'Новый обзор косметики! Что стоит попробовать 💄',
+            playCount: 12000
+          }
+        ]
+        console.log('Добавлены fallback рилсы для демонстрации')
       }
+
+      // Обновляем AI данные (пока статичные, можно расширить в будущем)
+      // AI данные будут обновляться в компоненте AiInsights на основе socialNetworks
 
     } catch (error) {
       console.error('Ошибка загрузки данных:', error)
-      // Если API недоступен, CORS ошибка или данные не найдены, загружаем тестовые данные
-      console.log('Переключаемся на тестовые данные из-за ошибки API (возможно CORS)')
+      // При ошибке API загружаем тестовые данные как fallback
+      console.log('Ошибка загрузки API данных, загружаем тестовые данные')
+      
+      // Если это CORS ошибка на GitHub Pages, показываем сообщение
+      if (process.env.NODE_ENV === 'production' && window.location.hostname.includes('github.io')) {
+        console.log('CORS ошибка на GitHub Pages, используем тестовые данные')
+      }
+      
       loadTestData()
     } finally {
+      // Принудительно обновляем состояние загрузки
       isLoading.value = false
       isReelsLoading.value = false
+      
+      // Принудительное обновление реактивности
+      nextTick(() => {
+        console.log('Данные загружены, состояние обновлено')
+      })
     }
   }
 
@@ -333,7 +415,25 @@ export const useBloggerData = () => {
     
     // Для тестовых данных не показываем загрузку
     isReelsLoading.value = false
-    
+
+    // Обновляем AI данные для тестовых данных
+    aiData.value = {
+      finalScore: '9.6/10',
+      topics: ['мода', 'лайфстайл'],
+      description: 'Эстетичный визуал, аутфиты, уход, сторис с рекомендациями. Часто использует рилсы и карусели.',
+      followers: '12 500',
+      er: '6,8%',
+      avgLikes: '220',
+      avgComments: '14',
+      reach: '28K',
+      productScore: '10',
+      productComment: 'Идеальный fit с модой',
+      audienceScore: '10',
+      audienceComment: 'Ядро — молодые мамы, следят за стилем',
+      matchScore: '9.6',
+      matchComment: 'Максимальное соответствие'
+    }
+
     // Обновляем отзывы
     reviews.value = {
       title: 'Отзывы (8)',
@@ -400,13 +500,14 @@ export const useBloggerData = () => {
     
     console.log('Тестовые данные загружены')
   }
-
+  
   return {
     bloggerData,
     socialNetworks,
     stats,
     workExamples,
     reviews,
+    aiData,
     totalFollowers,
     isLoading,
     isReelsLoading,
