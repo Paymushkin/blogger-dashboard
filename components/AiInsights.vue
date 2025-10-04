@@ -128,23 +128,23 @@ export default {
     getSocialIcon(socialName) {
       console.log('Получение иконки для:', socialName)
       const iconMap = {
-        'Instagram': '/blogger-dashboard/icons/instagram.svg',
-        'YouTube': '/blogger-dashboard/icons/youtube.svg',
-        'TikTok': '/blogger-dashboard/icons/tiktok.svg',
-        'Telegram': '/blogger-dashboard/icons/telegram.svg',
-        'VK': '/blogger-dashboard/icons/vk.svg',
-        'Dzen': '/blogger-dashboard/icons/dzen.svg',
-        'Rythm': '/blogger-dashboard/icons/rythm.svg',
-        'Wibes': '/blogger-dashboard/icons/wibes.svg'
+        'Instagram': '/icons/instagram.svg',
+        'YouTube': '/icons/youtube.svg',
+        'TikTok': '/icons/tiktok.svg',
+        'Telegram': '/icons/telegram.svg',
+        'VK': '/icons/vk.svg',
+        'Dzen': '/icons/dzen.svg',
+        'Rythm': '/icons/rythm.svg',
+        'Wibes': '/icons/wibes.svg'
       }
-      const iconPath = iconMap[socialName] || '/blogger-dashboard/icons/instagram.svg'
+      const iconPath = iconMap[socialName] || '/icons/instagram.svg'
       console.log('Путь к иконке:', iconPath)
       return iconPath
     },
     handleIconError(event, socialName) {
       console.log(`Ошибка загрузки иконки для ${socialName}`)
       // Показываем дефолтную иконку Instagram
-      event.target.src = '/blogger-dashboard/icons/instagram.svg'
+      event.target.src = '/icons/instagram.svg'
     }
   },
   mounted() {
