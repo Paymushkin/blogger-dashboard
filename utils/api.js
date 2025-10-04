@@ -1,8 +1,8 @@
 // API функции для получения данных блогера
 
-// Используем CORS прокси пока сервер не исправлен
+// Используем прямой API с CORS на сервере
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://corsproxy.io/?' + encodeURIComponent('https://dev.unpacks.ru/api')
+  ? 'https://dev.unpacks.ru/api'
   : '/api'
 
 // Функция для получения статистики блогера

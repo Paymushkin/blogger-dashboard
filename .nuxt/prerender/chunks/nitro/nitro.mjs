@@ -639,8 +639,8 @@ function _expandFromEnv(value) {
 
 const _inlineRuntimeConfig = {
   "app": {
-    "baseURL": "/blogger-dashboard/",
-    "buildId": "e2d59bca-6861-490b-a639-317ec85a1479",
+    "baseURL": "/",
+    "buildId": "2b97374c-c066-4c1d-a48e-65bd5bc2c936",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -904,7 +904,7 @@ function defaultHandler(error, event, opts) {
   const statusMessage = error.statusMessage || "Server Error";
   const url = getRequestURL(event, { xForwardedHost: true, xForwardedProto: true });
   if (statusCode === 404) {
-    const baseURL = "/blogger-dashboard/";
+    const baseURL = "/";
     if (/^\/[^/]/.test(baseURL) && !url.pathname.startsWith(baseURL)) {
       const redirectTo = `${baseURL}${url.pathname.slice(1)}${url.search}`;
       return {

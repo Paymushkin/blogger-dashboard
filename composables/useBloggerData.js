@@ -5,11 +5,11 @@ export const useBloggerData = () => {
   const bloggerData = ref({
     name: '',
     niche: '',
-    avatar: '/blogger-dashboard/images/default-avatar.png',
+    avatar: '/images/default-avatar.png',
     buttonText: 'Предложить сделку'
   })
   
-  const withBase = (p) => `/blogger-dashboard${p.startsWith('/') ? '' : '/'}${p.replace(/^\/?blogger-dashboard\//, '').replace(/^\//, '')}`
+  const withBase = (p) => p.startsWith('/') ? p : `/${p}`
 
   const socialIconByName = {
     Telegram: withBase('/icons/telegram.svg'),
@@ -98,12 +98,12 @@ export const useBloggerData = () => {
       return
     }
 
-    // Проверяем, находимся ли мы на GitHub Pages
-    const isGitHubPages = process.env.NODE_ENV === 'production' && window.location.hostname.includes('github.io')
+    // Проверяем, находимся ли мы на продакшене без ID блогера
+    const isProduction = process.env.NODE_ENV === 'production'
     
-    // Если на GitHub Pages И нет ID блогера, загружаем тестовые данные
-    if (isGitHubPages && !bloggerId) {
-      console.log('На GitHub Pages без ID, загружаем тестовые данные')
+    // Если на продакшене И нет ID блогера, загружаем тестовые данные
+    if (isProduction && !bloggerId) {
+      console.log('На продакшене без ID, загружаем тестовые данные')
       loadTestData()
       return
     }
@@ -245,9 +245,9 @@ export const useBloggerData = () => {
         console.log('Добавляем fallback рилсы для демонстрации')
         workExamples.value.examples = [
           {
-            video: '/blogger-dashboard/video/reels-1.mp4',
+            video: '/video/reels-1.mp4',
             alt: 'Красивый макияж',
-            thumbnail: '/blogger-dashboard/images/poster.png',
+            thumbnail: '/images/poster.png',
             duration: '0:15',
             platform: 'instagram',
             likesCount: 154,
@@ -257,9 +257,9 @@ export const useBloggerData = () => {
             playCount: 22930
           },
           {
-            video: '/blogger-dashboard/video/reels-2.mp4',
+            video: '/video/reels-2.mp4',
             alt: 'Утренняя рутина',
-            thumbnail: '/blogger-dashboard/images/poster.png',
+            thumbnail: '/images/poster.png',
             duration: '0:20',
             platform: 'tiktok',
             likesCount: 89,
@@ -269,9 +269,9 @@ export const useBloggerData = () => {
             playCount: 8500
           },
           {
-            video: '/blogger-dashboard/video/reels-3.mp4',
+            video: '/video/reels-3.mp4',
             alt: 'Обзор косметики',
-            thumbnail: '/blogger-dashboard/images/poster.png',
+            thumbnail: '/images/poster.png',
             duration: '0:18',
             platform: 'instagram',
             likesCount: 203,
@@ -292,9 +292,9 @@ export const useBloggerData = () => {
       // При ошибке API загружаем тестовые данные как fallback
       console.log('Ошибка загрузки API данных, загружаем тестовые данные')
       
-      // Если это CORS ошибка на GitHub Pages, показываем сообщение
-      if (process.env.NODE_ENV === 'production' && window.location.hostname.includes('github.io')) {
-        console.log('CORS ошибка на GitHub Pages, используем тестовые данные')
+      // Если это CORS ошибка на продакшене, показываем сообщение
+      if (process.env.NODE_ENV === 'production') {
+        console.log('CORS ошибка на продакшене, используем тестовые данные')
       }
       
       loadTestData()
@@ -324,7 +324,7 @@ export const useBloggerData = () => {
     bloggerData.value = {
       name: 'Анна Петрова',
       niche: 'Beauty & Lifestyle',
-      avatar: '/blogger-dashboard/images/test-avatar.jpg',
+      avatar: '/images/test-avatar.jpg',
       buttonText: 'Предложить сделку'
     }
     
@@ -352,9 +352,9 @@ export const useBloggerData = () => {
     // Обновляем примеры работ с тестовыми видео (только 5 видео, без скелетона)
     workExamples.value.examples = [
       { 
-        video: '/blogger-dashboard/video/reels-1.mp4', 
+        video: '/video/reels-1.mp4', 
         alt: 'Красивый макияж', 
-        thumbnail: '/blogger-dashboard/images/poster.png',
+        thumbnail: '/images/poster.png',
         duration: '0:15',
         platform: 'instagram',
         likesCount: 154,
@@ -364,9 +364,9 @@ export const useBloggerData = () => {
         playCount: 22930
       },
       { 
-        video: '/blogger-dashboard/video/reels-2.mp4', 
+        video: '/video/reels-2.mp4', 
         alt: 'Утренняя рутина', 
-        thumbnail: '/blogger-dashboard/images/poster.png',
+        thumbnail: '/images/poster.png',
         duration: '0:20',
         platform: 'tiktok',
         likesCount: 89,
@@ -376,9 +376,9 @@ export const useBloggerData = () => {
         playCount: 8500
       },
       { 
-        video: '/blogger-dashboard/video/reels-3.mp4', 
+        video: '/video/reels-3.mp4', 
         alt: 'Обзор косметики', 
-        thumbnail: '/blogger-dashboard/images/poster.png',
+        thumbnail: '/images/poster.png',
         duration: '0:18',
         platform: 'instagram',
         likesCount: 203,
@@ -388,9 +388,9 @@ export const useBloggerData = () => {
         playCount: 12000
       },
       { 
-        video: '/blogger-dashboard/video/reels-4.mp4', 
+        video: '/video/reels-4.mp4', 
         alt: 'Стильный образ', 
-        thumbnail: '/blogger-dashboard/images/poster.png',
+        thumbnail: '/images/poster.png',
         duration: '0:22',
         platform: 'tiktok',
         likesCount: 67,
@@ -400,9 +400,9 @@ export const useBloggerData = () => {
         playCount: 6500
       },
       { 
-        video: '/blogger-dashboard/video/reels-5.mp4', 
+        video: '/video/reels-5.mp4', 
         alt: 'Тренды красоты', 
-        thumbnail: '/blogger-dashboard/images/poster.png',
+        thumbnail: '/images/poster.png',
         duration: '0:16',
         platform: 'instagram',
         likesCount: 178,
