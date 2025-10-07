@@ -244,6 +244,10 @@ const props = defineProps({
   isReelsLoading: {
     type: Boolean,
     default: false
+  },
+  isFirstAttempt: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -256,7 +260,7 @@ const expandedDescriptions = ref([])
 // Определяем, являются ли данные тестовыми (по наличию локальных видео файлов)
 const isTestData = computed(() => {
   return props.examples && props.examples.length > 0 && 
-         props.examples.some(example => example.video && example.video.includes('/blogger-dashboard/video/'))
+         props.examples.some(example => example.video && example.video.includes('/video/'))
 })
 
 onMounted(() => {
@@ -264,7 +268,8 @@ onMounted(() => {
 })
 
 const initializeSkeleton = () => {
-  skeletonReels.value = Array.from({ length: 9 }, (_, index) => ({
+  // Показываем только 3 лоадера изначально
+  skeletonReels.value = Array.from({ length: 3 }, (_, index) => ({
     loaded: false,
     video: null,
     alt: `Рилс ${index + 1}`,
@@ -276,23 +281,58 @@ const initializeSkeleton = () => {
 
 watch(() => props.examples, (newExamples) => {
   if (newExamples && newExamples.length > 0) {
-    newExamples.forEach((example, index) => {
-      if (index < 9) {
-        skeletonReels.value[index] = {
-          loaded: true,
-          video: example.video,
-          alt: example.alt,
-          thumbnail: example.thumbnail,
-          duration: example.duration,
-          platform: example.platform,
-          likesCount: example.likesCount,
-          commentsCount: example.commentsCount,
-          viewsCount: example.viewsCount,
-          caption: example.caption,
-          playCount: example.playCount
+    // Если это первая попытка, показываем только реальное количество + лоадеры до 9
+    if (props.isFirstAttempt) {
+      const totalSlots = Math.max(newExamples.length, 9)
+      skeletonReels.value = Array.from({ length: totalSlots }, (_, index) => {
+        if (index < newExamples.length) {
+          // Реальный рилс
+          const example = newExamples[index]
+          return {
+            loaded: true,
+            video: example.video,
+            alt: example.alt,
+            thumbnail: example.thumbnail,
+            duration: example.duration,
+            platform: example.platform,
+            likesCount: example.likesCount,
+            commentsCount: example.commentsCount,
+            viewsCount: example.viewsCount,
+            caption: example.caption,
+            playCount: example.playCount
+          }
+        } else {
+          // Лоадер для оставшихся слотов
+          return {
+            loaded: false,
+            video: null,
+            alt: `Рилс ${index + 1}`,
+            thumbnail: null,
+            duration: null,
+            platform: null
+          }
         }
-      }
-    })
+      })
+    } else {
+      // Если не первая попытка, обновляем как обычно
+      newExamples.forEach((example, index) => {
+        if (index < 9) {
+          skeletonReels.value[index] = {
+            loaded: true,
+            video: example.video,
+            alt: example.alt,
+            thumbnail: example.thumbnail,
+            duration: example.duration,
+            platform: example.platform,
+            likesCount: example.likesCount,
+            commentsCount: example.commentsCount,
+            viewsCount: example.viewsCount,
+            caption: example.caption,
+            playCount: example.playCount
+          }
+        }
+      })
+    }
   }
 }, { immediate: true })
 

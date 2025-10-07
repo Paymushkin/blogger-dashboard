@@ -17,10 +17,13 @@ interface _GlobalComponents {
       'AiInsights': typeof import("../../components/AiInsights.vue")['default']
     'BloggerInfo': typeof import("../../components/BloggerInfo.vue")['default']
     'ErrorBoundary': typeof import("../../components/ErrorBoundary.vue")['default']
+    'ErrorState': typeof import("../../components/ErrorState.vue")['default']
     'LoadingSpinner': typeof import("../../components/LoadingSpinner.vue")['default']
+    'PageLoader': typeof import("../../components/PageLoader.vue")['default']
     'Reviews': typeof import("../../components/Reviews.vue")['default']
     'SocialAnalytics': typeof import("../../components/SocialAnalytics.vue")['default']
     'SocialIcon': typeof import("../../components/SocialIcon.vue")['default']
+    'SocialNetworkPopup': typeof import("../../components/SocialNetworkPopup.vue")['default']
     'SocialNetworks': typeof import("../../components/SocialNetworks.vue")['default']
     'StatsBlocks': typeof import("../../components/StatsBlocks.vue")['default']
     'WorkExamples': typeof import("../../components/WorkExamples.vue")['default']
@@ -57,10 +60,13 @@ interface _GlobalComponents {
       'LazyAiInsights': LazyComponent<typeof import("../../components/AiInsights.vue")['default']>
     'LazyBloggerInfo': LazyComponent<typeof import("../../components/BloggerInfo.vue")['default']>
     'LazyErrorBoundary': LazyComponent<typeof import("../../components/ErrorBoundary.vue")['default']>
+    'LazyErrorState': LazyComponent<typeof import("../../components/ErrorState.vue")['default']>
     'LazyLoadingSpinner': LazyComponent<typeof import("../../components/LoadingSpinner.vue")['default']>
+    'LazyPageLoader': LazyComponent<typeof import("../../components/PageLoader.vue")['default']>
     'LazyReviews': LazyComponent<typeof import("../../components/Reviews.vue")['default']>
     'LazySocialAnalytics': LazyComponent<typeof import("../../components/SocialAnalytics.vue")['default']>
     'LazySocialIcon': LazyComponent<typeof import("../../components/SocialIcon.vue")['default']>
+    'LazySocialNetworkPopup': LazyComponent<typeof import("../../components/SocialNetworkPopup.vue")['default']>
     'LazySocialNetworks': LazyComponent<typeof import("../../components/SocialNetworks.vue")['default']>
     'LazyStatsBlocks': LazyComponent<typeof import("../../components/StatsBlocks.vue")['default']>
     'LazyWorkExamples': LazyComponent<typeof import("../../components/WorkExamples.vue")['default']>

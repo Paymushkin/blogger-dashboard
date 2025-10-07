@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-gradient rounded-2xl p-4 backdrop-blur-[10px] border border-white/10 lg:row-span-2" style="background: linear-gradient(162deg, #1C4366 0%, #2B6499 79.36%);">
+  <div class="panel-gradient rounded-2xl p-4 backdrop-blur-[10px] border border-white/10" style="background: linear-gradient(162deg, #1C4366 0%, #2B6499 79.36%);">
     <!-- Мобильная версия: аватар и имя в одну строку -->
     <div class="flex items-center gap-3 lg:flex-col lg:text-center">
       <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-32 lg:h-32 flex-shrink-0 rounded-full overflow-hidden">

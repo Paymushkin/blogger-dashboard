@@ -2,7 +2,7 @@
 
 // Используем прямой API с CORS на сервере
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://dev.unpacks.ru/api'
+  ? 'https://api.unpacks.ru'
   : '/api'
 
 // Функция для получения статистики блогера
@@ -16,12 +16,14 @@ export async function getBloggerStats(bloggerId) {
       }
     })
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const error = new Error(`HTTP error! status: ${response.status}`)
+      error.status = response.status
+      throw error
     }
     return await response.json()
   } catch (error) {
     console.error('Ошибка загрузки статистики:', error)
-    return null
+    throw error // Пробрасываем ошибку вместо возврата null
   }
 }
 
@@ -36,12 +38,14 @@ export async function getBloggerReviews(bloggerId) {
       }
     })
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const error = new Error(`HTTP error! status: ${response.status}`)
+      error.status = response.status
+      throw error
     }
     return await response.json()
   } catch (error) {
     console.error('Ошибка загрузки отзывов:', error)
-    return null
+    throw error // Пробрасываем ошибку вместо возврата null
   }
 }
 
@@ -62,7 +66,9 @@ export async function getBloggerReels(bloggerId) {
     console.log('Ответ сервера для рилсов:', response.status, response.statusText)
     
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const error = new Error(`HTTP error! status: ${response.status}`)
+      error.status = response.status
+      throw error
     }
     
     const data = await response.json()
@@ -70,7 +76,7 @@ export async function getBloggerReels(bloggerId) {
     return data
   } catch (error) {
     console.error('Ошибка загрузки рилсов:', error)
-    return null
+    throw error // Пробрасываем ошибку вместо возврата null
   }
 }
 
@@ -106,6 +112,11 @@ export async function getBloggerReelsWithRetry(bloggerId, maxAttempts = 3, inter
     } catch (error) {
       console.error(`Ошибка в попытке ${i + 1}:`, error)
       
+      // Если это ошибка 400 или 404, сразу возвращаем ошибку
+      if (error.status === 400 || error.status === 404) {
+        throw error
+      }
+      
       // Если это не последняя попытка, ждем перед следующей попыткой
       if (i < maxAttempts - 1) {
         const currentInterval = Array.isArray(intervalMs) ? intervalMs[i] : intervalMs
@@ -116,6 +127,9 @@ export async function getBloggerReelsWithRetry(bloggerId, maxAttempts = 3, inter
         }
         
         await new Promise(resolve => setTimeout(resolve, currentInterval))
+      } else {
+        // Если это последняя попытка, пробрасываем ошибку
+        throw error
       }
     }
   }

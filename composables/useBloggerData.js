@@ -79,6 +79,12 @@ export const useBloggerData = () => {
   const isLoading = ref(false)
   const isReelsLoading = ref(false)
   const reelsLoadingProgress = ref({ current: 0, total: 4 })
+  const isInitialLoading = ref(false) // Новое состояние для первоначальной загрузки
+  const isFirstReelsAttempt = ref(true) // Отслеживание первой попытки загрузки рилсов
+  
+  // Состояния ошибок
+  const error = ref(null)
+  const bloggerNotFound = ref(false)
 
   // Функция форматирования даты
   const formatDate = (dateString) => {
@@ -90,68 +96,44 @@ export const useBloggerData = () => {
     })
   }
 
-  // Функция загрузки данных блогера
-  const loadBloggerData = async (bloggerId = null) => {
-    // Если нет ID или ID = 'test', загружаем тестовые данные
-    if (!bloggerId || bloggerId === 'test') {
-      loadTestData()
-      return
-    }
-
-    // Проверяем, находимся ли мы на продакшене без ID блогера
-    const isProduction = process.env.NODE_ENV === 'production'
-    
-    // Если на продакшене И нет ID блогера, загружаем тестовые данные
-    if (isProduction && !bloggerId) {
-      console.log('На продакшене без ID, загружаем тестовые данные')
-      loadTestData()
-      return
-    }
-
-    // Показываем загрузку для API запросов
-    isLoading.value = true
-    isReelsLoading.value = true
-    
-    try {
-      // Загружаем данные параллельно
-      const [statsData, reviewsData, reelsResult] = await Promise.all([
-        getBloggerStats(bloggerId),
-        getBloggerReviews(bloggerId),
-        getBloggerReelsWithRetry(bloggerId, 4, [10000, 10000, 10000, 20000], 9, (progress) => {
-          reelsLoadingProgress.value = progress
-        })
-      ])
-
-      // Обновляем профиль и статистику с учетом фактической структуры API
-      if (statsData) {
-        console.log('Обновляем профиль:', statsData.profile)
-        // Профиль
-        if (statsData.profile) {
-          bloggerData.value.name = statsData.profile.firstname || bloggerData.value.name
-          bloggerData.value.niche = statsData.profile.niche || bloggerData.value.niche
-          // Если есть аватар — используем, иначе остается дефолтный
-          if (statsData.profile.avatar) {
-            bloggerData.value.avatar = statsData.profile.avatar
-          }
-          console.log('Профиль обновлен:', bloggerData.value)
+  // Функция обновления статистики и профиля
+  const updateStatsAndProfile = (statsData) => {
+    if (statsData) {
+      console.log('Обновляем профиль:', statsData.profile)
+      // Профиль
+      if (statsData.profile) {
+        bloggerData.value.name = statsData.profile.firstname || bloggerData.value.name
+        bloggerData.value.niche = statsData.profile.niche || bloggerData.value.niche
+        // Если есть аватар — используем, иначе остается дефолтный
+        if (statsData.profile.avatar) {
+          bloggerData.value.avatar = statsData.profile.avatar
         }
+        console.log('Профиль обновлен:', bloggerData.value)
+      }
 
-        // Статистика
-        const avgRating = statsData.stats?.rating?.average
-        const dealsClosed = statsData.stats?.deals?.closed
-        const humanService = statsData.stats?.timeOnPlatform?.humanReadable
+      // Статистика
+      const avgRating = statsData.stats?.rating?.average
+      const dealsClosed = statsData.stats?.deals?.closed
+      const humanService = statsData.stats?.timeOnPlatform?.humanReadable
 
-        stats.value = {
-          rating: (avgRating != null ? avgRating : 5).toString(),
-          status: stats.value.status || 'ТОП',
-          completedDeals: (dealsClosed != null ? dealsClosed : 82).toString(),
-          serviceTime: humanService || stats.value.serviceTime || '9 мес. 27 д.'
-        }
+      stats.value = {
+        rating: (avgRating != null ? avgRating : 5).toString(),
+        status: stats.value.status || 'ТОП',
+        completedDeals: (dealsClosed != null ? dealsClosed : 82).toString(),
+        serviceTime: humanService || stats.value.serviceTime || '9 мес. 27 д.'
       }
 
       // Обновляем социальные сети с нормализацией путей к иконкам
-      if (statsData?.socialNetworks) {
+      if (statsData.socialNetworks) {
         console.log('Данные соцсетей из API:', statsData.socialNetworks)
+        // Логируем охваты из API
+        statsData.socialNetworks.forEach((social, index) => {
+          console.log(`Соцсеть ${index + 1}:`, {
+            name: social.name || social.network?.name,
+            followersCount: social.followersCount,
+            reach: social.reach
+          })
+        })
         const aliasToName = { inst: 'Instagram', tg: 'Telegram' }
         // В новых данных имя сети находится в social.network.name
         let nameCounts = {}
@@ -194,6 +176,7 @@ export const useBloggerData = () => {
               count: (social.followersCount != null
                 ? social.followersCount.toLocaleString('ru-RU')
                 : (social.count || '0')), // fallback
+              reach: social.reach || null, // Сохраняем охваты из API
               active: social.active !== false
             }
           })
@@ -204,8 +187,21 @@ export const useBloggerData = () => {
       } else {
         console.log('Нет данных соцсетей в statsData:', statsData)
       }
+    }
+  }
 
-      // Обновляем отзывы
+  // Функция загрузки отзывов
+  const loadReviews = async (bloggerId) => {
+    // Проверяем, не показана ли уже ошибка "блогера нет"
+    if (bloggerNotFound.value) {
+      console.log('Блогер не найден, пропускаем загрузку отзывов')
+      return
+    }
+    
+    try {
+      const reviewsData = await getBloggerReviews(bloggerId)
+      
+      // Обновляем отзывы сразу после получения
       if (reviewsData?.items) {
         reviews.value.reviews = reviewsData.items.map(review => ({
           name: review.author?.firstname || review.author?.maskedName || 'Пользователь',
@@ -218,11 +214,85 @@ export const useBloggerData = () => {
         // Обновляем заголовок с актуальным количеством отзывов
         reviews.value.title = `Отзывы (${reviewsData.items.length})`
       }
+    } catch (error) {
+      console.error('Ошибка загрузки отзывов:', error)
+      
+      // Если получили 400 или 404, сразу показываем ошибку "блогера нет"
+      if (error.status === 400 || error.status === 404 || error.message?.includes('400') || error.message?.includes('404')) {
+        bloggerNotFound.value = true
+        error.value = 'Такого блогера не существует'
+      }
+    }
+  }
+
+  // Функция для обновления средних охватов Instagram на основе просмотров рилсов
+  const updateInstagramReachFromReels = (reels) => {
+    if (!reels || reels.length === 0) return
+    
+    // Фильтруем только Instagram рилсы с данными просмотров
+    const instagramReels = reels.filter(reel => 
+      (reel.platform || '').toLowerCase() === 'instagram' && 
+      reel.video_view_count && 
+      reel.video_view_count > 0
+    )
+    
+    console.log(`Найдено Instagram рилсов с данными: ${instagramReels.length}`)
+    
+    // Если есть рилсы с данными - рассчитываем для первого Instagram
+    if (instagramReels.length > 0) {
+      // Логируем данные каждого рилса для отладки
+      console.log('Instagram рилсы для расчета охватов:')
+      instagramReels.forEach((reel, index) => {
+        console.log(`Рилс ${index + 1}: просмотры = ${reel.video_view_count}`)
+      })
+      
+      // Рассчитываем средний охват
+      const totalViews = instagramReels.reduce((sum, reel) => sum + (reel.video_view_count || 0), 0)
+      const averageReach = Math.round(totalViews / instagramReels.length)
+      
+      console.log(`Общие просмотры: ${totalViews}, Instagram рилсов: ${instagramReels.length}, средний охват: ${averageReach}`)
+      
+      // Обновляем охваты только для первого Instagram
+      socialNetworks.value = socialNetworks.value.map((social, index) => {
+        if ((social.baseName === 'Instagram' || social.name === 'Instagram') && 
+            index === socialNetworks.value.findIndex(s => (s.baseName === 'Instagram' || s.name === 'Instagram'))) {
+          return {
+            ...social,
+            reach: averageReach > 1000 ? `${(averageReach / 1000).toFixed(1)}K` : averageReach.toString()
+          }
+        }
+        return social
+      })
+    } else {
+      // Если нет рилсов с данными - все Instagram профили используют reach из API
+      console.log('Нет Instagram рилсов с данными просмотров, все профили используют reach из API')
+    }
+  }
+
+  // Функция загрузки рилсов
+  const loadReels = async (bloggerId) => {
+    // Проверяем, не показана ли уже ошибка "блогера нет"
+    if (bloggerNotFound.value) {
+      console.log('Блогер не найден, пропускаем загрузку рилсов')
+      return
+    }
+    
+    try {
+      const reelsResult = await getBloggerReelsWithRetry(bloggerId, 4, [10000, 10000, 10000, 20000], 9, (progress) => {
+        reelsLoadingProgress.value = progress
+      })
+
+      // Сбрасываем флаг первой попытки после получения результатов
+      isFirstReelsAttempt.value = false
 
       // Обновляем примеры работ
       console.log('Результат загрузки рилсов:', reelsResult)
       if (reelsResult?.reels && reelsResult.reels.length > 0) {
         console.log(`Найдено ${reelsResult.reels.length} рилсов`)
+        
+        // Рассчитываем средние охваты Instagram на основе просмотров рилсов
+        updateInstagramReachFromReels(reelsResult.reels)
+        
         workExamples.value.examples = reelsResult.reels.map((reel, index) => ({
           video: reel.cdn_url || reel.video,
           alt: `Рилс ${index + 1}`,
@@ -284,24 +354,99 @@ export const useBloggerData = () => {
         console.log('Добавлены fallback рилсы для демонстрации')
       }
 
-      // Обновляем AI данные (пока статичные, можно расширить в будущем)
-      // AI данные будут обновляться в компоненте AiInsights на основе socialNetworks
-
-    } catch (error) {
-      console.error('Ошибка загрузки данных:', error)
-      // При ошибке API загружаем тестовые данные как fallback
-      console.log('Ошибка загрузки API данных, загружаем тестовые данные')
+      // Завершаем загрузку рилсов
+      isReelsLoading.value = false
       
-      // Если это CORS ошибка на продакшене, показываем сообщение
-      if (process.env.NODE_ENV === 'production') {
-        console.log('CORS ошибка на продакшене, используем тестовые данные')
+    } catch (error) {
+      console.error('Ошибка загрузки рилсов:', error)
+      isReelsLoading.value = false
+      
+      // Если получили 400 или 404, сразу показываем ошибку "блогера нет"
+      if (error.status === 400 || error.status === 404 || error.message?.includes('400') || error.message?.includes('404')) {
+        bloggerNotFound.value = true
+        error.value = 'Такого блогера не существует'
+      }
+    }
+  }
+
+  // Функция загрузки отзывов и рилсов (теперь запускает их независимо)
+  const loadReviewsAndReels = async (bloggerId) => {
+    // Проверяем, не показана ли уже ошибка "блогера нет"
+    if (bloggerNotFound.value) {
+      console.log('Блогер не найден, пропускаем загрузку отзывов и рилсов')
+      return
+    }
+    
+    // Запускаем загрузку отзывов и рилсов независимо
+    loadReviews(bloggerId)
+    loadReels(bloggerId)
+  }
+
+  // Функция загрузки данных блогера
+  const loadBloggerData = async (bloggerId = null) => {
+    // Сброс состояний ошибок
+    error.value = null
+    bloggerNotFound.value = false
+    
+    // Если нет ID или ID = 'test', загружаем тестовые данные
+    if (!bloggerId || bloggerId === 'test') {
+      loadTestData()
+      return
+    }
+
+    // Проверяем, находимся ли мы на продакшене без ID блогера
+    const isProduction = process.env.NODE_ENV === 'production'
+    
+    // Если на продакшене И нет ID блогера, загружаем тестовые данные
+    if (isProduction && !bloggerId) {
+      console.log('На продакшене без ID, загружаем тестовые данные')
+      loadTestData()
+      return
+    }
+
+    // Показываем первоначальную загрузку
+    isInitialLoading.value = true
+    isLoading.value = true
+    isReelsLoading.value = true
+    
+    try {
+      // Сначала проверяем статистику - если блогера нет, сразу показываем ошибку
+      const statsData = await getBloggerStats(bloggerId)
+      
+      // Как только получили первые данные, убираем перекрывающий лоадер
+      isInitialLoading.value = false
+      
+      // Сразу обновляем данные статистики и профиля
+      updateStatsAndProfile(statsData)
+      
+      // Загружаем остальные данные параллельно без ожидания
+      loadReviewsAndReels(bloggerId)
+
+    } catch (err) {
+      console.error('Ошибка загрузки данных:', err)
+      
+      // Проверяем тип ошибки
+      if (err.status === 400 || err.status === 404 || err.message?.includes('400') || err.message?.includes('404')) {
+        bloggerNotFound.value = true
+        error.value = 'Такого блогера не существует'
+      } else {
+        error.value = 'Произошла ошибка при загрузке данных'
       }
       
-      loadTestData()
+      // При ошибке API загружаем тестовые данные как fallback только для некритичных ошибок
+      if (err.status !== 400 && err.status !== 404 && !err.message?.includes('400') && !err.message?.includes('404')) {
+        console.log('Ошибка загрузки API данных, загружаем тестовые данные')
+        
+        // Если это CORS ошибка на продакшене, показываем сообщение
+        if (process.env.NODE_ENV === 'production') {
+          console.log('CORS ошибка на продакшене, используем тестовые данные')
+        }
+        
+        loadTestData()
+      }
     } finally {
       // Принудительно обновляем состояние загрузки
       isLoading.value = false
-      isReelsLoading.value = false
       
       // Принудительное обновление реактивности
       nextTick(() => {
@@ -512,6 +657,10 @@ export const useBloggerData = () => {
     isLoading,
     isReelsLoading,
     reelsLoadingProgress,
+    isInitialLoading,
+    isFirstReelsAttempt,
+    error,
+    bloggerNotFound,
     loadBloggerData,
     startReelsLoading
   }

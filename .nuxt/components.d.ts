@@ -17,10 +17,13 @@ type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}
 export const AiInsights: typeof import("../components/AiInsights.vue")['default']
 export const BloggerInfo: typeof import("../components/BloggerInfo.vue")['default']
 export const ErrorBoundary: typeof import("../components/ErrorBoundary.vue")['default']
+export const ErrorState: typeof import("../components/ErrorState.vue")['default']
 export const LoadingSpinner: typeof import("../components/LoadingSpinner.vue")['default']
+export const PageLoader: typeof import("../components/PageLoader.vue")['default']
 export const Reviews: typeof import("../components/Reviews.vue")['default']
 export const SocialAnalytics: typeof import("../components/SocialAnalytics.vue")['default']
 export const SocialIcon: typeof import("../components/SocialIcon.vue")['default']
+export const SocialNetworkPopup: typeof import("../components/SocialNetworkPopup.vue")['default']
 export const SocialNetworks: typeof import("../components/SocialNetworks.vue")['default']
 export const StatsBlocks: typeof import("../components/StatsBlocks.vue")['default']
 export const WorkExamples: typeof import("../components/WorkExamples.vue")['default']
@@ -57,10 +60,13 @@ export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/co
 export const LazyAiInsights: LazyComponent<typeof import("../components/AiInsights.vue")['default']>
 export const LazyBloggerInfo: LazyComponent<typeof import("../components/BloggerInfo.vue")['default']>
 export const LazyErrorBoundary: LazyComponent<typeof import("../components/ErrorBoundary.vue")['default']>
+export const LazyErrorState: LazyComponent<typeof import("../components/ErrorState.vue")['default']>
 export const LazyLoadingSpinner: LazyComponent<typeof import("../components/LoadingSpinner.vue")['default']>
+export const LazyPageLoader: LazyComponent<typeof import("../components/PageLoader.vue")['default']>
 export const LazyReviews: LazyComponent<typeof import("../components/Reviews.vue")['default']>
 export const LazySocialAnalytics: LazyComponent<typeof import("../components/SocialAnalytics.vue")['default']>
 export const LazySocialIcon: LazyComponent<typeof import("../components/SocialIcon.vue")['default']>
+export const LazySocialNetworkPopup: LazyComponent<typeof import("../components/SocialNetworkPopup.vue")['default']>
 export const LazySocialNetworks: LazyComponent<typeof import("../components/SocialNetworks.vue")['default']>
 export const LazyStatsBlocks: LazyComponent<typeof import("../components/StatsBlocks.vue")['default']>
 export const LazyWorkExamples: LazyComponent<typeof import("../components/WorkExamples.vue")['default']>
