@@ -3,7 +3,7 @@
 // Используем прямой API с CORS на сервере
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://api.unpacks.ru'
-  : '/api'
+  : 'https://dev.unpacks.ru/api'
 
 // Функция для получения статистики блогера
 export async function getBloggerStats(bloggerId) {

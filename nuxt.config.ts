@@ -23,9 +23,6 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ['/']
-    },
-    routeRules: {
-      '/api/**': { proxy: 'https://dev.unpacks.ru/api/**' }
     }
   }
 })

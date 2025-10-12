@@ -25,97 +25,31 @@
             :alt="skeletonItem.alt" 
             class="w-full h-full object-cover" 
             controls
-            loop
-            muted
-            :poster="skeletonItem.thumbnail"
+            preload="metadata"
+            :poster="skeletonItem.thumbnail || defaultPoster"
           >
             Ваш браузер не поддерживает видео.
           </video>
           
-          <!-- Показываем thumbnail как изображение поверх видео -->
-          <div 
-            v-if="skeletonItem.thumbnail && !brokenThumbnails.includes(index)" 
-            class="absolute inset-0 bg-gray-800 flex items-center justify-center"
-            @click="playVideo($event)"
-          >
-            <img 
-              :src="skeletonItem.thumbnail" 
-              :alt="skeletonItem.alt" 
-              class="w-full h-full object-cover"
-              @error="handleImageError($event, index)"
-              @load="handleImageLoad($event, index)"
-              @loadstart="setImageTimeout(index)"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
-              <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
+          <!-- Статистика рилса поверх видео -->
+          <div v-if="skeletonItem.likesCount || skeletonItem.commentsCount || skeletonItem.viewsCount" class="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent backdrop-blur-sm px-3 py-2 flex gap-3 justify-center pointer-events-none">
+            <div v-if="skeletonItem.likesCount" class="flex items-center gap-1 text-white text-xs">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
+              <span>{{ formatNumber(skeletonItem.likesCount) }}</span>
             </div>
-            
-            <!-- Статистика рилса в верхней части -->
-            <div v-if="skeletonItem.likesCount || skeletonItem.commentsCount || skeletonItem.viewsCount" class="absolute top-2 right-2 flex flex-col gap-2">
-              <div v-if="skeletonItem.likesCount" class="flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-                <span>{{ formatNumber(skeletonItem.likesCount) }}</span>
-              </div>
-              <div v-if="skeletonItem.commentsCount" class="flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                </svg>
-                <span>{{ formatNumber(skeletonItem.commentsCount) }}</span>
-              </div>
-              <div v-if="skeletonItem.viewsCount" class="flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-full px-2 py-1 text-white text-sm">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                </svg>
-                <span>{{ formatNumber(skeletonItem.viewsCount) }}</span>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Дефолтный постер для битых изображений или отсутствующих thumbnail -->
-          <div 
-            v-if="!skeletonItem.thumbnail || brokenThumbnails.includes(index)" 
-            class="absolute inset-0 flex items-center justify-center cursor-pointer"
-            @click="playVideo($event)"
-          >
-            <img
-              :src="defaultPoster"
-              :alt="skeletonItem.alt"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
-              <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
+            <div v-if="skeletonItem.commentsCount" class="flex items-center gap-1 text-white text-xs">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
               </svg>
+              <span>{{ formatNumber(skeletonItem.commentsCount) }}</span>
             </div>
-            
-            <!-- Статистика рилса для дефолтного постера -->
-            <div v-if="skeletonItem.likesCount || skeletonItem.commentsCount || skeletonItem.viewsCount" class="absolute bottom-2 left-2 right-2">
-              <div class="bg-black/60 backdrop-blur-sm rounded-lg p-2 text-white text-xs">
-                <div v-if="skeletonItem.likesCount" class="flex items-center gap-1 mb-1">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                  <span>{{ formatNumber(skeletonItem.likesCount) }}</span>
-                </div>
-                <div v-if="skeletonItem.commentsCount" class="flex items-center gap-1 mb-1">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                  </svg>
-                  <span>{{ formatNumber(skeletonItem.commentsCount) }}</span>
-                </div>
-                <div v-if="skeletonItem.viewsCount" class="flex items-center gap-1">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                  </svg>
-                  <span>{{ formatNumber(skeletonItem.viewsCount) }}</span>
-                </div>
-              </div>
+            <div v-if="skeletonItem.viewsCount" class="flex items-center gap-1 text-white text-xs">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <span>{{ formatNumber(skeletonItem.viewsCount) }}</span>
             </div>
           </div>
         </div>
@@ -142,74 +76,36 @@
       >
         <!-- Видео контейнер -->
         <div class="relative aspect-[9/16] rounded-lg overflow-hidden">
-          <!-- Постер видео (только для API данных, не для тестовых) -->
-          <div 
-            v-if="example.thumbnail && !isTestData" 
-            class="absolute inset-0 bg-gray-800 flex items-center justify-center cursor-pointer"
-            @click="playVideo($event)"
-          >
-            <img
-              :src="example.thumbnail"
-              :alt="example.alt"
-              class="w-full h-full object-cover"
-              @error="handleImageError($event, index)"
-            />
-            <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
-              <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </div>
-          </div>
-          
-          <!-- Дефолтный постер если нет thumbnail и не тестовые данные -->
-          <div 
-            v-else-if="!isTestData"
-            class="absolute inset-0 flex items-center justify-center cursor-pointer"
-            @click="playVideo($event)"
-          >
-            <img
-              :src="defaultPoster"
-              :alt="example.alt"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
-              <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </div>
-          </div>
-          
           <video 
             :src="example.video" 
             :alt="example.alt" 
             class="w-full h-full object-cover" 
             controls
-            loop
-            muted
-            :poster="isTestData ? example.thumbnail : (example.thumbnail || defaultPoster)"
+            preload="metadata"
+            :poster="example.thumbnail || defaultPoster"
           >
             Ваш браузер не поддерживает видео.
           </video>
           
-          <!-- Статистика в верхней части видео -->
-          <div v-if="example.likesCount || example.commentsCount || example.viewsCount" class="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm rounded-t-lg px-3 py-2 flex gap-3 justify-center">
+          <!-- Статистика поверх видео -->
+          <div v-if="example.likesCount || example.commentsCount || example.viewsCount" class="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent backdrop-blur-sm px-3 py-2 flex gap-3 justify-center pointer-events-none">
             <div v-if="example.likesCount" class="flex items-center gap-1 text-white text-xs">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
-              <span class="text-xs">{{ formatNumber(example.likesCount) }}</span>
+              <span>{{ formatNumber(example.likesCount) }}</span>
             </div>
             <div v-if="example.commentsCount" class="flex items-center gap-1 text-white text-xs">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
               </svg>
-              <span class="text-xs">{{ formatNumber(example.commentsCount) }}</span>
+              <span>{{ formatNumber(example.commentsCount) }}</span>
             </div>
             <div v-if="example.viewsCount" class="flex items-center gap-1 text-white text-xs">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
               </svg>
-              <span class="text-xs">{{ formatNumber(example.viewsCount) }}</span>
+              <span>{{ formatNumber(example.viewsCount) }}</span>
             </div>
           </div>
         </div>
@@ -231,7 +127,7 @@ import { ref, onMounted, watch } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    default: 'Примеры работ'
+    default: 'Примеры работ из инстаграм и сделок'
   },
   examples: {
     type: Array,
@@ -251,17 +147,9 @@ const props = defineProps({
   }
 })
 
-const brokenThumbnails = ref([])
-const loadingTimeouts = ref({})
 const skeletonReels = ref([])
 const defaultPoster = '/blogger-dashboard/images/poster.png'
 const expandedDescriptions = ref([])
-
-// Определяем, являются ли данные тестовыми (по наличию локальных видео файлов)
-const isTestData = computed(() => {
-  return props.examples && props.examples.length > 0 && 
-         props.examples.some(example => example.video && example.video.includes('/video/'))
-})
 
 onMounted(() => {
   initializeSkeleton()
@@ -335,33 +223,6 @@ watch(() => props.examples, (newExamples) => {
     }
   }
 }, { immediate: true })
-
-const handleImageError = (event, index) => {
-  console.log(`Ошибка загрузки изображения для рилса ${index + 1}`)
-  brokenThumbnails.value.push(index)
-}
-
-const handleImageLoad = (event, index) => {
-  console.log(`Изображение загружено для рилса ${index + 1}`)
-  if (loadingTimeouts.value[index]) {
-    clearTimeout(loadingTimeouts.value[index])
-    delete loadingTimeouts.value[index]
-  }
-}
-
-const setImageTimeout = (index) => {
-  loadingTimeouts.value[index] = setTimeout(() => {
-    console.log(`Таймаут загрузки изображения для рилса ${index + 1}`)
-    brokenThumbnails.value.push(index)
-  }, 5000)
-}
-
-const playVideo = (event) => {
-  const video = event.target.closest('.relative').querySelector('video')
-  if (video) {
-    video.play()
-  }
-}
 
 // Функция форматирования чисел
 const formatNumber = (num) => {

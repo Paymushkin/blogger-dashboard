@@ -640,7 +640,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "60d0e14d-aaba-4167-b613-6a11f8a6a960",
+    "buildId": "d71a50da-780a-4063-9299-e0c13403ff98",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -649,12 +649,6 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
-      },
-      "/api/**": {
-        "proxy": {
-          "to": "https://dev.unpacks.ru/api/**",
-          "_proxyStripBase": "/api"
-        }
       },
       "/_nuxt/builds/meta/**": {
         "headers": {

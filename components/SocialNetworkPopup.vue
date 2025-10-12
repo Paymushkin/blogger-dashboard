@@ -22,18 +22,40 @@
       <!-- Информация -->
       <div class="space-y-4">
         <div class="flex justify-between items-center gap-4">
-          <span class="text-white/70 flex-shrink-0">Подписчиков:</span>
-          <span class="text-white font-semibold text-right">{{ socialData.count }}</span>
-        </div>
-        
-        <div class="flex justify-between items-center gap-4">
           <span class="text-white/70 flex-shrink-0">Тематика:</span>
           <span class="text-white font-semibold text-right">{{ socialData.theme || 'Не указана' }}</span>
         </div>
         
-        <div class="flex justify-between items-center gap-4">
-          <span class="text-white/70 flex-shrink-0">Средние охваты:</span>
-          <span class="text-white font-semibold text-right">{{ socialData.reach || 'Не указано' }}</span>
+        <div>
+          <div class="flex justify-between items-center gap-4">
+            <span class="text-white/70 flex-shrink-0">Средние охваты:</span>
+            <span class="text-white font-semibold text-right">{{ socialData.reach || 'Не указано' }}</span>
+          </div>
+          
+          <!-- Пояснение для Instagram -->
+          <div v-if="isInstagram" class="mt-2 text-xs text-white/50 italic">
+            Среднее значение рассчитано на основании видео в примерах, оно не исключает "залетевшие ролики"
+          </div>
+          
+          <!-- Пояснение для других соцсетей -->
+          <div v-else class="mt-2 text-xs text-white/50 italic">
+            На основании оценки блогера
+          </div>
+        </div>
+        
+        <!-- Ссылка на профиль -->
+        <div v-if="socialData.profileUrl" class="pt-2 border-t border-white/10">
+          <a 
+            :href="socialData.profileUrl" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-2 text-white/90 hover:text-white text-sm transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Перейти к профилю
+          </a>
         </div>
       </div>
 
@@ -63,11 +85,18 @@ export default {
         iconPath: '',
         count: '',
         theme: '',
-        reach: ''
+        reach: '',
+        profileUrl: null
       })
     }
   },
   emits: ['close'],
+  computed: {
+    isInstagram() {
+      // Проверяем, является ли это Instagram профилем (включая Instagram 2, Instagram 3 и т.д.)
+      return this.socialData.name && this.socialData.name.toLowerCase().includes('instagram')
+    }
+  },
   methods: {
     close() {
       this.$emit('close')

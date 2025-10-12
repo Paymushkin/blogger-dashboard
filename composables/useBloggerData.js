@@ -32,7 +32,7 @@ export const useBloggerData = () => {
   })
   
   const workExamples = ref({
-    title: 'Примеры работ',
+    title: 'Примеры работ из инстаграм и сделок',
     viewAllText: 'смотреть все',
     examples: []
   })
@@ -125,15 +125,6 @@ export const useBloggerData = () => {
 
       // Обновляем социальные сети с нормализацией путей к иконкам
       if (statsData.socialNetworks) {
-        console.log('Данные соцсетей из API:', statsData.socialNetworks)
-        // Логируем охваты из API
-        statsData.socialNetworks.forEach((social, index) => {
-          console.log(`Соцсеть ${index + 1}:`, {
-            name: social.name || social.network?.name,
-            followersCount: social.followersCount,
-            reach: social.reach
-          })
-        })
         const aliasToName = { inst: 'Instagram', tg: 'Telegram' }
         // В новых данных имя сети находится в social.network.name
         let nameCounts = {}
@@ -169,6 +160,16 @@ export const useBloggerData = () => {
             nameCounts[normalizedName] = (nameCounts[normalizedName] || 0) + 1
             const displayName = nameCounts[normalizedName] > 1 ? `${normalizedName} ${nameCounts[normalizedName]}` : normalizedName
 
+            // Формируем ссылку на профиль если есть данные
+            let profileUrl = null
+            const baseUrl = social.network?.baseUrl || social.baseUrl
+            // Для Wibes используем externalId, для остальных - username
+            const identifier = social.username || social.network?.externalId
+            
+            if (baseUrl && identifier) {
+              profileUrl = `${baseUrl}${identifier}`
+            }
+
             return {
               name: displayName,
               baseName: normalizedName,
@@ -177,15 +178,13 @@ export const useBloggerData = () => {
                 ? social.followersCount.toLocaleString('ru-RU')
                 : (social.count || '0')), // fallback
               reach: social.reach || null, // Сохраняем охваты из API
-              active: social.active !== false
+              active: social.active !== false,
+              profileUrl: profileUrl // Ссылка на профиль
             }
           })
           // Не удаляем дубликаты — показываем все с нумерацией
         
-        console.log('Обработанные соцсети:', processedNetworks)
         socialNetworks.value = processedNetworks
-      } else {
-        console.log('Нет данных соцсетей в statsData:', statsData)
       }
     }
   }
@@ -307,51 +306,9 @@ export const useBloggerData = () => {
         }))
         console.log('Рилсы обработаны:', workExamples.value.examples)
       } else {
-        // Если рилсов нет, показываем fallback рилсы для демонстрации
+        // Если рилсов нет, оставляем пустой массив
         workExamples.value.examples = []
         console.log('Рилсы не найдены или пустой массив. Результат:', reelsResult)
-        
-        // Добавляем fallback рилсы для демонстрации функционала
-        console.log('Добавляем fallback рилсы для демонстрации')
-        workExamples.value.examples = [
-          {
-            video: '/video/reels-1.mp4',
-            alt: 'Красивый макияж',
-            thumbnail: '/images/poster.png',
-            duration: '0:15',
-            platform: 'instagram',
-            likesCount: 154,
-            commentsCount: 8,
-            viewsCount: 4630,
-            caption: 'Артикул на ВБ: 253020586 \n\nНа вб акция на трусики минус 15% -  по 999 руб в течение августа 🔥\nНаши любимые- тонкие, дышащие, комфортные - идеально для активных деток. \nСпокойно выдерживают всю ночь 🌙 \n\n@hanibani_baby \n@hanibani.mama',
-            playCount: 22930
-          },
-          {
-            video: '/video/reels-2.mp4',
-            alt: 'Утренняя рутина',
-            thumbnail: '/images/poster.png',
-            duration: '0:20',
-            platform: 'tiktok',
-            likesCount: 89,
-            commentsCount: 12,
-            viewsCount: 2150,
-            caption: 'Утренняя рутина красоты ✨ Как я начинаю свой день',
-            playCount: 8500
-          },
-          {
-            video: '/video/reels-3.mp4',
-            alt: 'Обзор косметики',
-            thumbnail: '/images/poster.png',
-            duration: '0:18',
-            platform: 'instagram',
-            likesCount: 203,
-            commentsCount: 15,
-            viewsCount: 3200,
-            caption: 'Новый обзор косметики! Что стоит попробовать 💄',
-            playCount: 12000
-          }
-        ]
-        console.log('Добавлены fallback рилсы для демонстрации')
       }
 
       // Завершаем загрузку рилсов
