@@ -12,6 +12,7 @@
     "deploy": "npm run generate && gh-pages -d .output/public"
   },
   "dependencies": {
+    "@nuxtjs/sitemap": "^7.4.7",
     "nuxt": "^3.8.4",
     "vue": "^3.3.4"
   },

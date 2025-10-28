@@ -14,6 +14,7 @@ type HydrationStrategies = {
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 
 
+export const AiAnalytics: typeof import("../components/AiAnalytics.vue")['default']
 export const AiInsights: typeof import("../components/AiInsights.vue")['default']
 export const BloggerInfo: typeof import("../components/BloggerInfo.vue")['default']
 export const ErrorBoundary: typeof import("../components/ErrorBoundary.vue")['default']
@@ -57,6 +58,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']
+export const LazyAiAnalytics: LazyComponent<typeof import("../components/AiAnalytics.vue")['default']>
 export const LazyAiInsights: LazyComponent<typeof import("../components/AiInsights.vue")['default']>
 export const LazyBloggerInfo: LazyComponent<typeof import("../components/BloggerInfo.vue")['default']>
 export const LazyErrorBoundary: LazyComponent<typeof import("../components/ErrorBoundary.vue")['default']>

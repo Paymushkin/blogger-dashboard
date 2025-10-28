@@ -14,7 +14,8 @@ type HydrationStrategies = {
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 
 interface _GlobalComponents {
-      'AiInsights': typeof import("../../components/AiInsights.vue")['default']
+      'AiAnalytics': typeof import("../../components/AiAnalytics.vue")['default']
+    'AiInsights': typeof import("../../components/AiInsights.vue")['default']
     'BloggerInfo': typeof import("../../components/BloggerInfo.vue")['default']
     'ErrorBoundary': typeof import("../../components/ErrorBoundary.vue")['default']
     'ErrorState': typeof import("../../components/ErrorState.vue")['default']
@@ -57,7 +58,8 @@ interface _GlobalComponents {
     'Body': typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Body']
     'NuxtIsland': typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': typeof import("../../node_modules/nuxt/dist/app/components/server-placeholder")['default']
-      'LazyAiInsights': LazyComponent<typeof import("../../components/AiInsights.vue")['default']>
+      'LazyAiAnalytics': LazyComponent<typeof import("../../components/AiAnalytics.vue")['default']>
+    'LazyAiInsights': LazyComponent<typeof import("../../components/AiInsights.vue")['default']>
     'LazyBloggerInfo': LazyComponent<typeof import("../../components/BloggerInfo.vue")['default']>
     'LazyErrorBoundary': LazyComponent<typeof import("../../components/ErrorBoundary.vue")['default']>
     'LazyErrorState': LazyComponent<typeof import("../../components/ErrorState.vue")['default']>

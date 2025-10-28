@@ -17,7 +17,7 @@
         <span class="text-xs md:text-sm text-white/70 lowercase">работает в сервисе</span>
         <span class="text-xl md:text-2xl font-bold text-white">{{ serviceTime }}</span>
       </div>
-      <div class="py-2 flex items-center justify-between">
+      <!-- <div class="py-2 flex items-center justify-between">
         <span class="text-xs md:text-sm text-white/70 lowercase">социальные сети</span>
         <div class="flex flex-wrap gap-2 items-center">
           <div
@@ -39,7 +39,7 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

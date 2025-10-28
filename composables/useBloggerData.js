@@ -65,7 +65,22 @@ export const useBloggerData = () => {
     audienceScore: '',
     audienceComment: '',
     matchScore: '',
-    matchComment: ''
+    matchComment: '',
+    // Новые поля для детальной аналитики
+    avgLikes: '',
+    avgComments: '',
+    postsPerMonth: '',
+    engagementRate: '',
+    following: '',
+    followersToFollowingRatio: '',
+    avgReachPosts: '',
+    avgReachReels: '',
+    blogDescription: '',
+    overallScore: '',
+    activityScore: '',
+    thematicScore: '',
+    engagementScore: '',
+    confidenceScore: ''
   })
   
   const totalFollowers = computed(() => {
@@ -528,12 +543,27 @@ export const useBloggerData = () => {
       avgLikes: '220',
       avgComments: '14',
       reach: '28K',
+      profileUrl: 'https://instagram.com/mrs_gorunova.official',
       productScore: '10',
       productComment: 'Идеальный fit с модой',
       audienceScore: '10',
       audienceComment: 'Ядро — молодые мамы, следят за стилем',
+      audienceDescription: 'Аудитория блогера - преимущественно женщины в возрасте 25-40 лет, заинтересованные в здоровье детей, косметике и фитнесе. Они имеют средний и выше среднего уровень дохода, проживают в городах с развитой инфраструктурой. Эти люди стремятся улучшить качество жизни своих детей и себя, ищут информацию о здоровье, эффективных методах заработка и создании контента. Они активно взаимодействуют с контентом, оставляя комментарии и делясь своими впечатлениями.',
       matchScore: '9.6',
-      matchComment: 'Максимальное соответствие'
+      matchComment: 'Максимальное соответствие',
+      // Новые поля для детальной аналитики
+      postsPerMonth: '12.5',
+      engagementRate: '4.2%',
+      following: '234',
+      followersToFollowingRatio: '53.4',
+      avgReachPosts: '8.2K',
+      avgReachReels: '15.6K',
+      blogDescription: 'Тематика блогера охватывает здоровье детей, косметику и фитнес, что дает умеренную универсальность для товарных интеграций. Однако, уровень вовлеченности аудитории очень низкий с ER всего 0.04%, что существенно снижает привлекательность для брендов. Блогер также не очень активен, публикуя всего 0.06 постов в день.',
+      overallScore: '4.6',
+      activityScore: '3',
+      thematicScore: '7',
+      engagementScore: '2',
+      confidenceScore: 'Средняя'
     }
 
     // Обновляем отзывы

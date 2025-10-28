@@ -41,13 +41,12 @@
           />
         </div>
 
-        <!-- AI аналитика - скрыто -->
-        <!-- <AiInsights
-          :data="aiData"
+        <!-- AI аналитика -->
+        <AiAnalytics
           :social-networks="socialNetworks"
-          :active-network="activeNetwork"
-          @select="setActiveNetwork"
-        /> -->
+          :ai-data="aiData"
+          @network-selected="setActiveNetwork"
+        />
 
         <!-- Нижняя панель - Примеры работ -->
         <WorkExamples
@@ -82,6 +81,7 @@
 import { useBloggerData } from '~/composables/useBloggerData'
 import { onMounted, ref } from 'vue'
 import SocialNetworkPopup from '~/components/SocialNetworkPopup.vue'
+import AiAnalytics from '~/components/AiAnalytics.vue'
 
 const {
   bloggerData,
