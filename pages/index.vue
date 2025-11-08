@@ -45,6 +45,7 @@
         <AiAnalytics
           :social-networks="socialNetworks"
           :ai-data="aiData"
+          :has-subscription="hasSubscription"
           @network-selected="setActiveNetwork"
         />
 
@@ -104,6 +105,9 @@ const {
 
 // Активная социальная сеть
 const activeNetwork = ref('Instagram')
+
+// Состояние подписки (для тестирования установлено в true)
+const hasSubscription = ref(true)
 
 // Функция для установки активной сети
 const setActiveNetwork = (network) => {

@@ -1,5 +1,13 @@
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { getBloggerStats, getBloggerReviews, getBloggerReelsWithRetry } from '~/utils/api'
+import { 
+  testBloggerData, 
+  testStats, 
+  getTestSocialNetworks, 
+  testWorkExamples, 
+  testAiData, 
+  testReviews 
+} from '~/composables/testData'
 
 export const useBloggerData = () => {
   const bloggerData = ref({
@@ -438,197 +446,25 @@ export const useBloggerData = () => {
     console.log('Загружаем тестовые данные')
     
     // Обновляем профиль
-    bloggerData.value = {
-      name: 'Анна Петрова',
-      niche: 'Beauty & Lifestyle',
-      avatar: '/images/test-avatar.jpg',
-      buttonText: 'Предложить сделку'
-    }
+    bloggerData.value = { ...testBloggerData }
     
     // Обновляем статистику
-    stats.value = {
-      rating: '4.8',
-      status: 'ТОП',
-      completedDeals: '156',
-      serviceTime: '2 г. 3 мес.'
-    }
+    stats.value = { ...testStats }
     
-    // Обновляем социальные сети (8 разных + 2 Instagram аккаунта)
-    socialNetworks.value = [
-      { name: 'Instagram', iconPath: socialIconByName.Instagram, count: '125K', active: true },
-      { name: 'Instagram 2', iconPath: socialIconByName.Instagram, count: '89K', active: true },
-      { name: 'TikTok', iconPath: socialIconByName.TikTok, count: '78K', active: true },
-      { name: 'YouTube', iconPath: socialIconByName.YouTube, count: '45K', active: true },
-      { name: 'Telegram', iconPath: socialIconByName.Telegram, count: '12K', active: true },
-      { name: 'VK', iconPath: socialIconByName.VK, count: '34K', active: true },
-      { name: 'Dzen', iconPath: socialIconByName.Dzen, count: '23K', active: true },
-      { name: 'Rythm', iconPath: socialIconByName.Rythm, count: '15K', active: true },
-      { name: 'Wibes', iconPath: socialIconByName.Wibes, count: '8K', active: true }
-    ]
+    // Обновляем социальные сети
+    socialNetworks.value = getTestSocialNetworks(socialIconByName)
     
-    // Обновляем примеры работ с тестовыми видео (только 5 видео, без скелетона)
-    workExamples.value.examples = [
-      { 
-        video: '/video/reels-1.mp4', 
-        alt: 'Красивый макияж', 
-        thumbnail: '/images/poster.png',
-        duration: '0:15',
-        platform: 'instagram',
-        likesCount: 154,
-        commentsCount: 8,
-        viewsCount: 4630,
-        caption: 'Артикул на ВБ: 253020586 \n\nНа вб акция на трусики минус 15% -  по 999 руб в течение августа 🔥\nНаши любимые- тонкие, дышащие, комфортные - идеально для активных деток. \nСпокойно выдерживают всю ночь 🌙 \n\n@hanibani_baby \n@hanibani.mama',
-        playCount: 22930
-      },
-      { 
-        video: '/video/reels-2.mp4', 
-        alt: 'Утренняя рутина', 
-        thumbnail: '/images/poster.png',
-        duration: '0:20',
-        platform: 'tiktok',
-        likesCount: 89,
-        commentsCount: 12,
-        viewsCount: 2150,
-        caption: 'Утренняя рутина красоты ✨ Как я начинаю свой день',
-        playCount: 8500
-      },
-      { 
-        video: '/video/reels-3.mp4', 
-        alt: 'Обзор косметики', 
-        thumbnail: '/images/poster.png',
-        duration: '0:18',
-        platform: 'instagram',
-        likesCount: 203,
-        commentsCount: 15,
-        viewsCount: 3200,
-        caption: 'Новый обзор косметики! Что стоит попробовать 💄',
-        playCount: 12000
-      },
-      { 
-        video: '/video/reels-4.mp4', 
-        alt: 'Стильный образ', 
-        thumbnail: '/images/poster.png',
-        duration: '0:22',
-        platform: 'tiktok',
-        likesCount: 67,
-        commentsCount: 5,
-        viewsCount: 1800,
-        caption: 'Стильный образ на выходные 👗',
-        playCount: 6500
-      },
-      { 
-        video: '/video/reels-5.mp4', 
-        alt: 'Тренды красоты', 
-        thumbnail: '/images/poster.png',
-        duration: '0:16',
-        platform: 'instagram',
-        likesCount: 178,
-        commentsCount: 9,
-        viewsCount: 2800,
-        caption: 'Тренды красоты 2024! Что актуально сейчас 💅',
-        playCount: 9500
-      }
-    ]
+    // Обновляем примеры работ
+    workExamples.value.examples = [...testWorkExamples]
     
     // Для тестовых данных не показываем загрузку
     isReelsLoading.value = false
 
-    // Обновляем AI данные для тестовых данных
-    aiData.value = {
-      finalScore: '9.6/10',
-      topics: ['мода', 'лайфстайл'],
-      description: 'Эстетичный визуал, аутфиты, уход, сторис с рекомендациями. Часто использует рилсы и карусели.',
-      followers: '12 500',
-      er: '6,8%',
-      avgLikes: '220',
-      avgComments: '14',
-      reach: '28K',
-      profileUrl: 'https://instagram.com/mrs_gorunova.official',
-      productScore: '10',
-      productComment: 'Идеальный fit с модой',
-      audienceScore: '10',
-      audienceComment: 'Ядро — молодые мамы, следят за стилем',
-      audienceDescription: 'Аудитория блогера - преимущественно женщины в возрасте 25-40 лет, заинтересованные в здоровье детей, косметике и фитнесе. Они имеют средний и выше среднего уровень дохода, проживают в городах с развитой инфраструктурой. Эти люди стремятся улучшить качество жизни своих детей и себя, ищут информацию о здоровье, эффективных методах заработка и создании контента. Они активно взаимодействуют с контентом, оставляя комментарии и делясь своими впечатлениями.',
-      matchScore: '9.6',
-      matchComment: 'Максимальное соответствие',
-      // Новые поля для детальной аналитики
-      postsPerMonth: '12.5',
-      engagementRate: '4.2%',
-      following: '234',
-      followersToFollowingRatio: '53.4',
-      avgReachPosts: '8.2K',
-      avgReachReels: '15.6K',
-      blogDescription: 'Тематика блогера охватывает здоровье детей, косметику и фитнес, что дает умеренную универсальность для товарных интеграций. Однако, уровень вовлеченности аудитории очень низкий с ER всего 0.04%, что существенно снижает привлекательность для брендов. Блогер также не очень активен, публикуя всего 0.06 постов в день.',
-      overallScore: '4.6',
-      activityScore: '3',
-      thematicScore: '7',
-      engagementScore: '2',
-      confidenceScore: 'Средняя'
-    }
+    // Обновляем AI данные
+    aiData.value = { ...testAiData }
 
     // Обновляем отзывы
-    reviews.value = {
-      title: 'Отзывы (8)',
-      viewAllText: 'смотреть все',
-      reviews: [
-        {
-          name: 'Мария К.',
-          date: '15.12.2024',
-          rating: 5,
-          text: 'Отличная работа! Очень довольна результатом. Рекомендую!',
-          avatar: null
-        },
-        {
-          name: 'Елена С.',
-          date: '10.12.2024',
-          rating: 5,
-          text: 'Профессиональный подход, качественный контент. Спасибо!',
-          avatar: null
-        },
-        {
-          name: 'Анна В.',
-          date: '05.12.2024',
-          rating: 4,
-          text: 'Хорошая работа, но можно было бы быстрее. В целом довольна.',
-          avatar: null
-        },
-        {
-          name: 'Ольга М.',
-          date: '28.11.2024',
-          rating: 5,
-          text: 'Супер! Все сделано в срок и качественно. Буду обращаться еще.',
-          avatar: null
-        },
-        {
-          name: 'Ирина Л.',
-          date: '20.11.2024',
-          rating: 5,
-          text: 'Отличный результат! Очень понравилось сотрудничество.',
-          avatar: null
-        },
-        {
-          name: 'Татьяна Р.',
-          date: '15.11.2024',
-          rating: 5,
-          text: 'Профессионально и быстро. Рекомендую всем!',
-          avatar: null
-        },
-        {
-          name: 'Наталья П.',
-          date: '08.11.2024',
-          rating: 4,
-          text: 'Хорошая работа, но есть небольшие замечания. В целом довольна.',
-          avatar: null
-        },
-        {
-          name: 'Светлана К.',
-          date: '01.11.2024',
-          rating: 5,
-          text: 'Превосходно! Все сделано на высшем уровне. Спасибо!',
-          avatar: null
-        }
-      ]
-    }
+    reviews.value = { ...testReviews }
     
     console.log('Тестовые данные загружены')
   }

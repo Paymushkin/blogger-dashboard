@@ -19,6 +19,7 @@ export const AiInsights: typeof import("../components/AiInsights.vue")['default'
 export const BloggerInfo: typeof import("../components/BloggerInfo.vue")['default']
 export const ErrorBoundary: typeof import("../components/ErrorBoundary.vue")['default']
 export const ErrorState: typeof import("../components/ErrorState.vue")['default']
+export const InfoTooltip: typeof import("../components/InfoTooltip.vue")['default']
 export const LoadingSpinner: typeof import("../components/LoadingSpinner.vue")['default']
 export const PageLoader: typeof import("../components/PageLoader.vue")['default']
 export const Reviews: typeof import("../components/Reviews.vue")['default']
@@ -31,9 +32,12 @@ export const WorkExamples: typeof import("../components/WorkExamples.vue")['defa
 export const IconsCalendarIcon: typeof import("../components/icons/CalendarIcon.vue")['default']
 export const IconsCheckIcon: typeof import("../components/icons/CheckIcon.vue")['default']
 export const IconsDealsIcon: typeof import("../components/icons/DealsIcon.vue")['default']
+export const IconsLockIcon: typeof import("../components/icons/LockIcon.vue")['default']
 export const IconsPlayIcon: typeof import("../components/icons/PlayIcon.vue")['default']
+export const IconsQuestionIcon: typeof import("../components/icons/QuestionIcon.vue")['default']
 export const IconsStarIcon: typeof import("../components/icons/StarIcon.vue")['default']
 export const IconsStarRatingIcon: typeof import("../components/icons/StarRatingIcon.vue")['default']
+export const IconsRedFlag: typeof import("../components/icons/redFlag.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -63,6 +67,7 @@ export const LazyAiInsights: LazyComponent<typeof import("../components/AiInsigh
 export const LazyBloggerInfo: LazyComponent<typeof import("../components/BloggerInfo.vue")['default']>
 export const LazyErrorBoundary: LazyComponent<typeof import("../components/ErrorBoundary.vue")['default']>
 export const LazyErrorState: LazyComponent<typeof import("../components/ErrorState.vue")['default']>
+export const LazyInfoTooltip: LazyComponent<typeof import("../components/InfoTooltip.vue")['default']>
 export const LazyLoadingSpinner: LazyComponent<typeof import("../components/LoadingSpinner.vue")['default']>
 export const LazyPageLoader: LazyComponent<typeof import("../components/PageLoader.vue")['default']>
 export const LazyReviews: LazyComponent<typeof import("../components/Reviews.vue")['default']>
@@ -75,9 +80,12 @@ export const LazyWorkExamples: LazyComponent<typeof import("../components/WorkEx
 export const LazyIconsCalendarIcon: LazyComponent<typeof import("../components/icons/CalendarIcon.vue")['default']>
 export const LazyIconsCheckIcon: LazyComponent<typeof import("../components/icons/CheckIcon.vue")['default']>
 export const LazyIconsDealsIcon: LazyComponent<typeof import("../components/icons/DealsIcon.vue")['default']>
+export const LazyIconsLockIcon: LazyComponent<typeof import("../components/icons/LockIcon.vue")['default']>
 export const LazyIconsPlayIcon: LazyComponent<typeof import("../components/icons/PlayIcon.vue")['default']>
+export const LazyIconsQuestionIcon: LazyComponent<typeof import("../components/icons/QuestionIcon.vue")['default']>
 export const LazyIconsStarIcon: LazyComponent<typeof import("../components/icons/StarIcon.vue")['default']>
 export const LazyIconsStarRatingIcon: LazyComponent<typeof import("../components/icons/StarRatingIcon.vue")['default']>
+export const LazyIconsRedFlag: LazyComponent<typeof import("../components/icons/redFlag.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

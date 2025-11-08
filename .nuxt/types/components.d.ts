@@ -19,6 +19,7 @@ interface _GlobalComponents {
     'BloggerInfo': typeof import("../../components/BloggerInfo.vue")['default']
     'ErrorBoundary': typeof import("../../components/ErrorBoundary.vue")['default']
     'ErrorState': typeof import("../../components/ErrorState.vue")['default']
+    'InfoTooltip': typeof import("../../components/InfoTooltip.vue")['default']
     'LoadingSpinner': typeof import("../../components/LoadingSpinner.vue")['default']
     'PageLoader': typeof import("../../components/PageLoader.vue")['default']
     'Reviews': typeof import("../../components/Reviews.vue")['default']
@@ -31,9 +32,12 @@ interface _GlobalComponents {
     'IconsCalendarIcon': typeof import("../../components/icons/CalendarIcon.vue")['default']
     'IconsCheckIcon': typeof import("../../components/icons/CheckIcon.vue")['default']
     'IconsDealsIcon': typeof import("../../components/icons/DealsIcon.vue")['default']
+    'IconsLockIcon': typeof import("../../components/icons/LockIcon.vue")['default']
     'IconsPlayIcon': typeof import("../../components/icons/PlayIcon.vue")['default']
+    'IconsQuestionIcon': typeof import("../../components/icons/QuestionIcon.vue")['default']
     'IconsStarIcon': typeof import("../../components/icons/StarIcon.vue")['default']
     'IconsStarRatingIcon': typeof import("../../components/icons/StarRatingIcon.vue")['default']
+    'IconsRedFlag': typeof import("../../components/icons/redFlag.vue")['default']
     'NuxtWelcome': typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
     'NuxtErrorBoundary': typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -63,6 +67,7 @@ interface _GlobalComponents {
     'LazyBloggerInfo': LazyComponent<typeof import("../../components/BloggerInfo.vue")['default']>
     'LazyErrorBoundary': LazyComponent<typeof import("../../components/ErrorBoundary.vue")['default']>
     'LazyErrorState': LazyComponent<typeof import("../../components/ErrorState.vue")['default']>
+    'LazyInfoTooltip': LazyComponent<typeof import("../../components/InfoTooltip.vue")['default']>
     'LazyLoadingSpinner': LazyComponent<typeof import("../../components/LoadingSpinner.vue")['default']>
     'LazyPageLoader': LazyComponent<typeof import("../../components/PageLoader.vue")['default']>
     'LazyReviews': LazyComponent<typeof import("../../components/Reviews.vue")['default']>
@@ -75,9 +80,12 @@ interface _GlobalComponents {
     'LazyIconsCalendarIcon': LazyComponent<typeof import("../../components/icons/CalendarIcon.vue")['default']>
     'LazyIconsCheckIcon': LazyComponent<typeof import("../../components/icons/CheckIcon.vue")['default']>
     'LazyIconsDealsIcon': LazyComponent<typeof import("../../components/icons/DealsIcon.vue")['default']>
+    'LazyIconsLockIcon': LazyComponent<typeof import("../../components/icons/LockIcon.vue")['default']>
     'LazyIconsPlayIcon': LazyComponent<typeof import("../../components/icons/PlayIcon.vue")['default']>
+    'LazyIconsQuestionIcon': LazyComponent<typeof import("../../components/icons/QuestionIcon.vue")['default']>
     'LazyIconsStarIcon': LazyComponent<typeof import("../../components/icons/StarIcon.vue")['default']>
     'LazyIconsStarRatingIcon': LazyComponent<typeof import("../../components/icons/StarRatingIcon.vue")['default']>
+    'LazyIconsRedFlag': LazyComponent<typeof import("../../components/icons/redFlag.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
     'LazyNuxtErrorBoundary': LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

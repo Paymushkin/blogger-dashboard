@@ -42,6 +42,7 @@ declare global {
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getRouteRules: typeof import('../../node_modules/nuxt/dist/app/composables/manifest').getRouteRules
+  const getTestSocialNetworks: typeof import('../../composables/testData').getTestSocialNetworks
   const h: typeof import('vue').h
   const hasInjectionContext: typeof import('vue').hasInjectionContext
   const inject: typeof import('vue').inject
@@ -101,6 +102,11 @@ declare global {
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
   const showError: typeof import('../../node_modules/nuxt/dist/app/composables/error').showError
+  const testAiData: typeof import('../../composables/testData').testAiData
+  const testBloggerData: typeof import('../../composables/testData').testBloggerData
+  const testReviews: typeof import('../../composables/testData').testReviews
+  const testStats: typeof import('../../composables/testData').testStats
+  const testWorkExamples: typeof import('../../composables/testData').testWorkExamples
   const toRaw: typeof import('vue').toRaw
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs
@@ -240,6 +246,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getRouteRules: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/manifest')['getRouteRules']>
+    readonly getTestSocialNetworks: UnwrapRef<typeof import('../../composables/testData')['getTestSocialNetworks']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasInjectionContext: UnwrapRef<typeof import('vue')['hasInjectionContext']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -299,6 +306,11 @@ declare module 'vue' {
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly showError: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/error')['showError']>
+    readonly testAiData: UnwrapRef<typeof import('../../composables/testData')['testAiData']>
+    readonly testBloggerData: UnwrapRef<typeof import('../../composables/testData')['testBloggerData']>
+    readonly testReviews: UnwrapRef<typeof import('../../composables/testData')['testReviews']>
+    readonly testStats: UnwrapRef<typeof import('../../composables/testData')['testStats']>
+    readonly testWorkExamples: UnwrapRef<typeof import('../../composables/testData')['testWorkExamples']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>

@@ -33,6 +33,7 @@ export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
 export { APP_CONFIG, THEME_COLORS, SIZES, ASSET_PATHS } from '../composables/constants';
 export { formatFollowers, formatDate, generateId, isValidUrl, debounce } from '../composables/helpers';
 export { TYPES } from '../composables/index';
+export { testBloggerData, testStats, getTestSocialNetworks, testWorkExamples, testAiData, testReviews } from '../composables/testData';
 export { useBloggerData } from '../composables/useBloggerData';
 export { useVideoPlayer } from '../composables/useVideoPlayer';
 export { getBloggerStats, getBloggerReviews, getBloggerReels, getBloggerReelsWithRetry } from '../utils/api';
